@@ -5,6 +5,9 @@
  */
 package view;
 
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author gabrielstahlberg
@@ -34,7 +37,7 @@ public class MainWindow extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         menuCad = new javax.swing.JMenu();
         itemCadBook = new javax.swing.JMenuItem();
-        itemUsers = new javax.swing.JMenuItem();
+        itemLeitores = new javax.swing.JMenuItem();
         menuOption = new javax.swing.JMenu();
         itemBooks = new javax.swing.JMenuItem();
         itemLoan = new javax.swing.JMenuItem();
@@ -45,6 +48,13 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IFSP Library System");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
+
+        desktopArea.setPreferredSize(new java.awt.Dimension(600, 493));
 
         labelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/Logo.png"))); // NOI18N
 
@@ -60,14 +70,14 @@ public class MainWindow extends javax.swing.JFrame {
         itemCadBook.setText("Obras");
         menuCad.add(itemCadBook);
 
-        itemUsers.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
-        itemUsers.setText("Usuários");
-        itemUsers.addActionListener(new java.awt.event.ActionListener() {
+        itemLeitores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
+        itemLeitores.setText("Usuários");
+        itemLeitores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemUsersActionPerformed(evt);
+                itemLeitoresActionPerformed(evt);
             }
         });
-        menuCad.add(itemUsers);
+        menuCad.add(itemLeitores);
 
         menuBar.add(menuCad);
 
@@ -91,6 +101,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         itemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         itemExit.setText("Sair");
+        itemExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemExitActionPerformed(evt);
+            }
+        });
         menuOption.add(itemExit);
 
         menuBar.add(menuOption);
@@ -103,7 +118,7 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(desktopArea, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(desktopArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -113,18 +128,18 @@ public class MainWindow extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(94, 94, 94)
                         .addComponent(labelUserOn)
                         .addGap(38, 38, 38)
                         .addComponent(labelDataSection)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labelLogo))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(desktopArea)))
+                        .addComponent(desktopArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -132,9 +147,25 @@ public class MainWindow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void itemUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemUsersActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemUsersActionPerformed
+    private void itemLeitoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLeitoresActionPerformed
+        JanelaLeitores janelaLeitores = new JanelaLeitores();
+        janelaLeitores.setVisible(true);
+        desktopArea.add(janelaLeitores);
+    }//GEN-LAST:event_itemLeitoresActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // ATUALIZA AS LABELS COM OS RESPECTIVOS DADOS
+        LocalDate data = LocalDate.now();
+        this.labelDataSection.setText(data.toString());
+    }//GEN-LAST:event_formWindowActivated
+
+    private void itemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemExitActionPerformed
+        int sair = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair ?", "Atenção", JOptionPane.YES_NO_OPTION);
+        
+        if(sair == JOptionPane.YES_OPTION){
+            System.exit(0);
+        }
+    }//GEN-LAST:event_itemExitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,16 +204,16 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopArea;
-    private javax.swing.JMenuItem itemBooks;
-    private javax.swing.JMenuItem itemCadBook;
+    public static javax.swing.JMenuItem itemBooks;
+    public static javax.swing.JMenuItem itemCadBook;
     private javax.swing.JMenuItem itemDevolution;
     private javax.swing.JMenuItem itemExit;
+    public static javax.swing.JMenuItem itemLeitores;
     private javax.swing.JMenuItem itemLoan;
     private javax.swing.JMenuItem itemPendency;
-    private javax.swing.JMenuItem itemUsers;
     private javax.swing.JLabel labelDataSection;
     private javax.swing.JLabel labelLogo;
-    private javax.swing.JLabel labelUserOn;
+    public static javax.swing.JLabel labelUserOn;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuCad;
     private javax.swing.JMenu menuOption;

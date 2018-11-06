@@ -5,15 +5,17 @@
  */
 package view;
 
+import dao.LoginDAO;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author gabrielstahlberg
  */
 public class Login extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Login
-     */
+    
+    
     public Login() {
         initComponents();
     }
@@ -100,6 +102,22 @@ public class Login extends javax.swing.JFrame {
 
     private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
         // TODO add your handling code here:
+        String login = fieldUser.getText();
+        String senha = fieldPassword.getText();
+        String usuario = "";
+        if(!login.equals("") && !senha.equals("")){
+            LoginDAO loginDAO = new LoginDAO();
+            usuario = loginDAO.autentica(login, senha);
+            if(!usuario.equals("")){
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.setVisible(true);
+                mainWindow.labelUserOn.setText(usuario);
+                mainWindow.labelUserOn.setForeground(Color.red);
+                this.dispose(); //Fecha o formulário de login
+            }else{
+                JOptionPane.showMessageDialog(null, "Erro");
+            }
+        }
     }//GEN-LAST:event_buttonLoginActionPerformed
 
     /**
@@ -145,4 +163,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel labelUser;
     private javax.swing.JLabel statusLogin;
     // End of variables declaration//GEN-END:variables
+    
+    
 }
