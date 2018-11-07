@@ -68,6 +68,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         itemCadBook.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK));
         itemCadBook.setText("Obras");
+        itemCadBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemCadBookActionPerformed(evt);
+            }
+        });
         menuCad.add(itemCadBook);
 
         itemLeitores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
@@ -148,9 +153,7 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemLeitoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLeitoresActionPerformed
-        JanelaLeitores janelaLeitores = new JanelaLeitores();
-        janelaLeitores.setVisible(true);
-        desktopArea.add(janelaLeitores);
+
     }//GEN-LAST:event_itemLeitoresActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -166,6 +169,12 @@ public class MainWindow extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_itemExitActionPerformed
+
+    private void itemCadBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCadBookActionPerformed
+        CadastroObras cadastroObras = new CadastroObras();
+        cadastroObras.setVisible(true);
+        desktopArea.add(cadastroObras);
+    }//GEN-LAST:event_itemCadBookActionPerformed
 
     /**
      * @param args the command line arguments
