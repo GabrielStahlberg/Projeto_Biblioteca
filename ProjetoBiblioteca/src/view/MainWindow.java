@@ -93,10 +93,20 @@ public class MainWindow extends javax.swing.JFrame {
 
         itemDevolution.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK));
         itemDevolution.setText("Realizar devolução");
+        itemDevolution.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemDevolutionActionPerformed(evt);
+            }
+        });
         menuOption.add(itemDevolution);
 
         itemPendency.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
         itemPendency.setText("Consultar pendências");
+        itemPendency.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemPendencyActionPerformed(evt);
+            }
+        });
         menuOption.add(itemPendency);
 
         itemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
@@ -172,6 +182,18 @@ public class MainWindow extends javax.swing.JFrame {
         telaEmprestimo.setVisible(true);
         desktopArea.add(telaEmprestimo);
     }//GEN-LAST:event_itemLoanActionPerformed
+
+    private void itemDevolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDevolutionActionPerformed
+        TelaDevolucao telaDevolucao = new TelaDevolucao();
+        telaDevolucao.setVisible(true);
+        desktopArea.add(telaDevolucao);
+    }//GEN-LAST:event_itemDevolutionActionPerformed
+
+    private void itemPendencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPendencyActionPerformed
+        TelaConsulta telaConsulta = new TelaConsulta();
+        telaConsulta.setVisible(true);
+        desktopArea.add(telaConsulta);
+    }//GEN-LAST:event_itemPendencyActionPerformed
 
     /**
      * @param args the command line arguments

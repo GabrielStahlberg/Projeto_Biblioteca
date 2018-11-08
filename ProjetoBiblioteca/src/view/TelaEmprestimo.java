@@ -5,6 +5,8 @@
  */
 package view;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author gabrielstahlberg
@@ -16,6 +18,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
      */
     public TelaEmprestimo() {
         initComponents();
+        this.fieldDataAtual.setText(LocalDate.now().toString());
     }
 
     /**
@@ -54,11 +57,13 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Tipo leitor:");
 
-        fieldTipoLeitor.setEnabled(false);
+        fieldTipoLeitor.setEditable(false);
 
         jLabel3.setText("Informe o título da obra:");
 
         jLabel4.setText("Data:");
+
+        fieldDataAtual.setEditable(false);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/search.png"))); // NOI18N
 
@@ -118,8 +123,8 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldProntuario, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(fieldProntuario, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(fieldTipoLeitor, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
