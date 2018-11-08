@@ -80,6 +80,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         itemBooks.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
         itemBooks.setText("Relatório do acervo");
+        itemBooks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemBooksActionPerformed(evt);
+            }
+        });
         menuOption.add(itemBooks);
 
         itemLoan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK));
@@ -194,6 +199,12 @@ public class MainWindow extends javax.swing.JFrame {
         telaConsulta.setVisible(true);
         desktopArea.add(telaConsulta);
     }//GEN-LAST:event_itemPendencyActionPerformed
+
+    private void itemBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBooksActionPerformed
+        TelaRelatorio telaRelatorio = new TelaRelatorio();
+        telaRelatorio.setVisible(true);
+        desktopArea.add(telaRelatorio);
+    }//GEN-LAST:event_itemBooksActionPerformed
 
     /**
      * @param args the command line arguments
