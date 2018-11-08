@@ -9,12 +9,12 @@ package view;
  *
  * @author gabrielstahlberg
  */
-public class CadastroObras extends javax.swing.JInternalFrame {
+public class TelaCadastroObras extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form JanelaUsuario
      */
-    public CadastroObras() {
+    public TelaCadastroObras() {
         initComponents();
     }
 
@@ -49,7 +49,7 @@ public class CadastroObras extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        buttonCadastrar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -93,10 +93,10 @@ public class CadastroObras extends javax.swing.JInternalFrame {
         jLabel4.setForeground(new java.awt.Color(52, 19, 158));
         jLabel4.setText("CADASTRO");
 
-        jButton1.setBackground(new java.awt.Color(254, 254, 254));
-        jButton1.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(63, 187, 71));
-        jButton1.setText("CADASTRAR");
+        buttonCadastrar.setBackground(new java.awt.Color(254, 254, 254));
+        buttonCadastrar.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        buttonCadastrar.setForeground(new java.awt.Color(63, 187, 71));
+        buttonCadastrar.setText("CADASTRAR");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,7 +128,7 @@ public class CadastroObras extends javax.swing.JInternalFrame {
                                             .addComponent(labelEditora)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jButton1)
+                                            .addComponent(buttonCadastrar)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(labelCategoria)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -204,7 +204,7 @@ public class CadastroObras extends javax.swing.JInternalFrame {
                         .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(jButton1)))
+                        .addComponent(buttonCadastrar)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -213,6 +213,7 @@ public class CadastroObras extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonCadastrar;
     private javax.swing.JButton buttonJSON;
     private javax.swing.JButton buttonXML;
     private javax.swing.JComboBox<String> comboCategoria;
@@ -223,7 +224,6 @@ public class CadastroObras extends javax.swing.JInternalFrame {
     private javax.swing.JTextField fieldNEdicao;
     private javax.swing.JTextField fieldPalavraChave;
     private javax.swing.JTextField fieldTitulo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

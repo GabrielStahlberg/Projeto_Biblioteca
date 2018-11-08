@@ -37,7 +37,6 @@ public class MainWindow extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         menuCad = new javax.swing.JMenu();
         itemCadBook = new javax.swing.JMenuItem();
-        itemLeitores = new javax.swing.JMenuItem();
         menuOption = new javax.swing.JMenu();
         itemBooks = new javax.swing.JMenuItem();
         itemLoan = new javax.swing.JMenuItem();
@@ -56,7 +55,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         desktopArea.setPreferredSize(new java.awt.Dimension(600, 493));
 
-        labelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/Logo.png"))); // NOI18N
+        labelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/Logo.png"))); // NOI18N
 
         labelUserOn.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
         labelUserOn.setText("Usuário");
@@ -75,15 +74,6 @@ public class MainWindow extends javax.swing.JFrame {
         });
         menuCad.add(itemCadBook);
 
-        itemLeitores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
-        itemLeitores.setText("Usuários");
-        itemLeitores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemLeitoresActionPerformed(evt);
-            }
-        });
-        menuCad.add(itemLeitores);
-
         menuBar.add(menuCad);
 
         menuOption.setText("Opções");
@@ -94,6 +84,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         itemLoan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK));
         itemLoan.setText("Realizar empréstimo");
+        itemLoan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemLoanActionPerformed(evt);
+            }
+        });
         menuOption.add(itemLoan);
 
         itemDevolution.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK));
@@ -134,13 +129,13 @@ public class MainWindow extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(94, 94, 94)
                         .addComponent(labelUserOn)
                         .addGap(38, 38, 38)
                         .addComponent(labelDataSection)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
                         .addComponent(labelLogo))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -151,10 +146,6 @@ public class MainWindow extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(860, 564));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void itemLeitoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLeitoresActionPerformed
-
-    }//GEN-LAST:event_itemLeitoresActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // ATUALIZA AS LABELS COM OS RESPECTIVOS DADOS
@@ -171,10 +162,16 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_itemExitActionPerformed
 
     private void itemCadBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCadBookActionPerformed
-        CadastroObras cadastroObras = new CadastroObras();
+        TelaCadastroObras cadastroObras = new TelaCadastroObras();
         cadastroObras.setVisible(true);
         desktopArea.add(cadastroObras);
     }//GEN-LAST:event_itemCadBookActionPerformed
+
+    private void itemLoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLoanActionPerformed
+        TelaEmprestimo telaEmprestimo = new TelaEmprestimo();
+        telaEmprestimo.setVisible(true);
+        desktopArea.add(telaEmprestimo);
+    }//GEN-LAST:event_itemLoanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,7 +214,6 @@ public class MainWindow extends javax.swing.JFrame {
     public static javax.swing.JMenuItem itemCadBook;
     private javax.swing.JMenuItem itemDevolution;
     private javax.swing.JMenuItem itemExit;
-    public static javax.swing.JMenuItem itemLeitores;
     private javax.swing.JMenuItem itemLoan;
     private javax.swing.JMenuItem itemPendency;
     private javax.swing.JLabel labelDataSection;
