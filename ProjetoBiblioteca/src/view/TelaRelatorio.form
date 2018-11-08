@@ -171,6 +171,9 @@
           <Image iconType="3" name="/Icons/xml.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonXMLActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buttonPDF">
       <Properties>
@@ -185,6 +188,9 @@
           <Image iconType="3" name="/Icons/json.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonJSONActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

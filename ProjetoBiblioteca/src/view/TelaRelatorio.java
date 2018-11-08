@@ -86,10 +86,20 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         jLabel1.setText("Exportar como:");
 
         buttonXML.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/xml.png"))); // NOI18N
+        buttonXML.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonXMLActionPerformed(evt);
+            }
+        });
 
         buttonPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/pdf.png"))); // NOI18N
 
         buttonJSON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/json.png"))); // NOI18N
+        buttonJSON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonJSONActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,6 +158,16 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
 
         setBounds(0, 0, 608, 493);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXMLActionPerformed
+        OpcoesXML opcoesXML = new OpcoesXML();
+        opcoesXML.setVisible(true);
+    }//GEN-LAST:event_buttonXMLActionPerformed
+
+    private void buttonJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonJSONActionPerformed
+        OpcoesJSON opcoesJSON = new OpcoesJSON();
+        opcoesJSON.setVisible(true);
+    }//GEN-LAST:event_buttonJSONActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

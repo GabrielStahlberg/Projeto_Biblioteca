@@ -177,30 +177,36 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_itemExitActionPerformed
 
     private void itemCadBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCadBookActionPerformed
+        desktopArea.removeAll();
         TelaCadastroObras cadastroObras = new TelaCadastroObras();
         cadastroObras.setVisible(true);
         desktopArea.add(cadastroObras);
     }//GEN-LAST:event_itemCadBookActionPerformed
 
     private void itemLoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLoanActionPerformed
+        desktopArea.removeAll();
+        desktopArea.removeAll();
         TelaEmprestimo telaEmprestimo = new TelaEmprestimo();
         telaEmprestimo.setVisible(true);
         desktopArea.add(telaEmprestimo);
     }//GEN-LAST:event_itemLoanActionPerformed
 
     private void itemDevolutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDevolutionActionPerformed
+        desktopArea.removeAll();
         TelaDevolucao telaDevolucao = new TelaDevolucao();
         telaDevolucao.setVisible(true);
         desktopArea.add(telaDevolucao);
     }//GEN-LAST:event_itemDevolutionActionPerformed
 
     private void itemPendencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPendencyActionPerformed
+        desktopArea.removeAll();
         TelaConsulta telaConsulta = new TelaConsulta();
         telaConsulta.setVisible(true);
         desktopArea.add(telaConsulta);
     }//GEN-LAST:event_itemPendencyActionPerformed
 
     private void itemBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBooksActionPerformed
+        desktopArea.removeAll();
         TelaRelatorio telaRelatorio = new TelaRelatorio();
         telaRelatorio.setVisible(true);
         desktopArea.add(telaRelatorio);

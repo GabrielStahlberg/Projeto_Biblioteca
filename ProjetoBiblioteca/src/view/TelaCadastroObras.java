@@ -61,8 +61,18 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
         jLabel1.setText("Importar por:");
 
         buttonXML.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/xml.png"))); // NOI18N
+        buttonXML.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonXMLActionPerformed(evt);
+            }
+        });
 
         buttonJSON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/json.png"))); // NOI18N
+        buttonJSON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonJSONActionPerformed(evt);
+            }
+        });
 
         labelTitulo.setText("Título*");
 
@@ -142,13 +152,15 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
                             .addComponent(fieldEditora)
                             .addComponent(fieldDataPubl)
                             .addComponent(fieldIsbn)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                                .addComponent(jLabel1)))
                         .addGap(18, 18, 18)
                         .addComponent(buttonXML)
                         .addGap(34, 34, 34)
@@ -210,6 +222,16 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
 
         setBounds(0, 0, 608, 493);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXMLActionPerformed
+        OpcoesXML opcoesXML = new OpcoesXML();
+        opcoesXML.setVisible(true);
+    }//GEN-LAST:event_buttonXMLActionPerformed
+
+    private void buttonJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonJSONActionPerformed
+        OpcoesJSON opcoesJSON = new OpcoesJSON();
+        opcoesJSON.setVisible(true);
+    }//GEN-LAST:event_buttonJSONActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
