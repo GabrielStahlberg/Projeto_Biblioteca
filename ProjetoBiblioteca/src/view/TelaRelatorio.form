@@ -181,6 +181,9 @@
           <Image iconType="3" name="/Icons/pdf.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonPDFActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buttonJSON">
       <Properties>

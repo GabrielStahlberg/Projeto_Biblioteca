@@ -46,22 +46,6 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="fieldTitulo" min="-2" pref="280" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="labelISBN" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="fieldAutor" alignment="0" min="-2" pref="280" max="-2" attributes="0"/>
-                                          <Component id="fieldPalavraChave" alignment="0" min="-2" pref="280" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="labelDataPubl" min="-2" max="-2" attributes="0"/>
-                                          <Component id="labelEditora" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="buttonCadastrar" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" attributes="0">
@@ -74,6 +58,35 @@
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="fieldNEdicao" min="-2" pref="50" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="fieldTitulo" max="32767" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="fieldAutor" pref="230" max="32767" attributes="0"/>
+                                                  <Component id="fieldPalavraChave" max="32767" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="buttonAddPalavra" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="buttonAddAutor" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Component id="labelDataPubl" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="labelEditora" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                              <Component id="labelISBN" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
@@ -139,35 +152,45 @@
                   <Component id="fieldIsbn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="fieldAutor" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="labelAutor" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="labelDataPubl" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="fieldDataPubl" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="labelPalavraChave" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="fieldPalavraChave" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="labelEditora" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="fieldEditora" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="labelCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="comboCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="labelNEdicao" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="fieldNEdicao" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="fieldAutor" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelAutor" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelDataPubl" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="fieldDataPubl" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="labelPalavraChave" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="fieldPalavraChave" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelEditora" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="fieldEditora" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="labelCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="comboCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelNEdicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="fieldNEdicao" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                      <Component id="buttonCadastrar" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Component id="buttonAddPalavra" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                      <Component id="buttonCadastrar" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="buttonAddAutor" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="18" max="32767" attributes="0"/>
           </Group>
@@ -314,6 +337,20 @@
           <Color blue="47" green="bb" red="3f" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="CADASTRAR"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="buttonAddPalavra">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Icons/add.png"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="buttonAddAutor">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/Icons/add_user.png"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

@@ -93,6 +93,11 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         });
 
         buttonPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/pdf.png"))); // NOI18N
+        buttonPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPDFActionPerformed(evt);
+            }
+        });
 
         buttonJSON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/json.png"))); // NOI18N
         buttonJSON.addActionListener(new java.awt.event.ActionListener() {
@@ -168,6 +173,11 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         OpcoesJSON opcoesJSON = new OpcoesJSON();
         opcoesJSON.setVisible(true);
     }//GEN-LAST:event_buttonJSONActionPerformed
+
+    private void buttonPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPDFActionPerformed
+        OpcoesPDF opcoesPDF = new OpcoesPDF();
+        opcoesPDF.setVisible(true);
+    }//GEN-LAST:event_buttonPDFActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
