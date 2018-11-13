@@ -32,4 +32,11 @@ public class Obra {
         this.nroEdicao = nroEdicao;
         this.categoria = categoria;
     }
+
+    @Override
+    public String toString() {
+        return "Obra{" + "titulo=" + titulo + ", isbn=" + isbn + ", editora=" + editora + ", dataPubl=" + dataPubl + ", autores=" + autores + ", palavrasChaves=" + palavrasChaves + ", nroEdicao=" + nroEdicao + ", categoria=" + categoria + '}';
+    }
+    
+    
 }

@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import model.Obra;
 
 /**
  *
@@ -45,6 +46,10 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
             String editora = this.fieldEditora.getText();
             int nroEdicao = Integer.parseInt(this.fieldNEdicao.getText());
             String categoria = (String)this.comboCategoria.getSelectedItem();
+            
+            Obra obra = new Obra(titulo, isbn, editora, dataPubl, this.autores, this.palavrasChave, nroEdicao, categoria);
+            
+            System.out.println(obra.toString());
         }else{
             JOptionPane.showMessageDialog(null, "Preencha os campos corretamente", null, 2);
         }
