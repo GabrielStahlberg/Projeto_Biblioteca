@@ -5,21 +5,48 @@
  */
 package model;
 
+import ifsp.dsi.xml.DataAdapter;
 import java.time.LocalDate;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
  * @author gabrielstahlberg
  */
+
+@XmlAccessorType(XmlAccessType.FIELD)
+
 public class Obra {
+    @XmlElement(name = "titulo")
     private String titulo;
+    
+    @XmlElement(name = "isbn")
     private String isbn;
+    
+    @XmlElement(name = "editora")
     private String editora;
+    
+    @XmlElement(name = "data")
+    @XmlJavaTypeAdapter(DataAdapter.class)
     private LocalDate dataPubl;
+    
+    @XmlElement(name = "autor")
+    @XmlElementWrapper(name = "autores")
     private List<String> autores;
+    
+    @XmlElement(name = "palavra-chave")
+    @XmlElementWrapper(name = "palavras-chave")
     private List<String> palavrasChaves;
+    
+    @XmlElement(name = "edicao")
     private int nroEdicao;
+    
+    @XmlElement(name = "categoria")
     private String categoria;
 
     public Obra(String titulo, String isbn, String editora, LocalDate dataPubl, List<String> autores, List<String> palavrasChaves, int nroEdicao, String categoria) {
@@ -32,10 +59,78 @@ public class Obra {
         this.nroEdicao = nroEdicao;
         this.categoria = categoria;
     }
+    
+    public Obra(){
+        
+    }
 
     @Override
     public String toString() {
-        return "Obra{" + "titulo=" + titulo + ", isbn=" + isbn + ", editora=" + editora + ", dataPubl=" + dataPubl + ", autores=" + autores + ", palavrasChaves=" + palavrasChaves + ", nroEdicao=" + nroEdicao + ", categoria=" + categoria + '}';
+        return "Obra{" + "titulo=" + getTitulo() + ", isbn=" + getIsbn() + ", editora=" + getEditora() + ", dataPubl=" + getDataPubl() + ", autores=" + getAutores() + ", palavrasChaves=" + getPalavrasChaves() + ", nroEdicao=" + getNroEdicao() + ", categoria=" + getCategoria() + '}';
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getEditora() {
+        return editora;
+    }
+
+    public void setEditora(String editora) {
+        this.editora = editora;
+    }
+
+    public LocalDate getDataPubl() {
+        return dataPubl;
+    }
+
+    public void setDataPubl(LocalDate dataPubl) {
+        this.dataPubl = dataPubl;
+    }
+
+    public List<String> getAutores() {
+        return autores;
+    }
+
+    public void setAutores(List<String> autores) {
+        this.autores = autores;
+    }
+
+    public List<String> getPalavrasChaves() {
+        return palavrasChaves;
+    }
+
+    public void setPalavrasChaves(List<String> palavrasChaves) {
+        this.palavrasChaves = palavrasChaves;
+    }
+
+    public int getNroEdicao() {
+        return nroEdicao;
+    }
+
+    public void setNroEdicao(int nroEdicao) {
+        this.nroEdicao = nroEdicao;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
     
     

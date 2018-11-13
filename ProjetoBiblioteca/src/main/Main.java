@@ -5,10 +5,15 @@
  */
 package main;
 
+import javax.swing.SwingUtilities;
+import view.JanelaPrincipal;
+
 /**
  *
  * @author gabrielstahlberg
  */
 public class Main {
-    
+    public static void main(String[] args) {
+
+    }
 }

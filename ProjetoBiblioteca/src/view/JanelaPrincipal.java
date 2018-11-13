@@ -20,6 +20,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
      */
     public JanelaPrincipal() {
         initComponents();
+        setVisible(true);
     }
 
     /**
@@ -151,7 +152,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                         .addComponent(labelUserOn)
                         .addGap(38, 38, 38)
                         .addComponent(labelDataSection)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labelLogo))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()

@@ -22,6 +22,7 @@ public class OpcoesXML extends javax.swing.JFrame {
      */
     public OpcoesXML() {
         initComponents();
+        fileEscolhida = null;
         this.group.add(this.opcaoDom);
         this.group.add(this.opcaoSax);
         this.group.add(this.opcaoJaxb);
@@ -145,7 +146,24 @@ public class OpcoesXML extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonApiVoltarActionPerformed
 
     private void buttonApiXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApiXMLActionPerformed
-
+        if(fileEscolhida == null){
+           JOptionPane.showMessageDialog(null, "Escolha um arquivo !", null, 1);
+        }
+        else{
+            int selected = 0;
+            if(opcaoSax.isSelected()){
+                selected = 1;
+            }
+            else if(opcaoDom.isSelected()){
+                selected = 2;
+            }
+            else if(opcaoJaxb.isSelected()){
+                selected = 3;
+            }
+            
+            ImportacaoBackground importacao = new ImportacaoBackground(selected,fileEscolhida);
+            importacao.run();
+        }
     }//GEN-LAST:event_buttonApiXMLActionPerformed
 
     private void buttonProcurarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonProcurarArquivoActionPerformed
@@ -159,8 +177,8 @@ public class OpcoesXML extends javax.swing.JFrame {
         int retorno = fileChooser.showOpenDialog(this);
         
         if(retorno == JFileChooser.APPROVE_OPTION){
-            File file = fileChooser.getSelectedFile();
-            this.fieldCaminhoArquivo.setText(file.getPath());
+            fileEscolhida = fileChooser.getSelectedFile();
+            this.fieldCaminhoArquivo.setText(fileEscolhida.getPath());
         }else{
             JOptionPane.showMessageDialog(null, "Não Importado !", null, 1);
         }
@@ -202,6 +220,7 @@ public class OpcoesXML extends javax.swing.JFrame {
     }
     
     private ButtonGroup group = new ButtonGroup();
+    private File fileEscolhida;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonApiVoltar;
     private javax.swing.JButton buttonApiXML;
