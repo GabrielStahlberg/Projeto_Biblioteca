@@ -5,7 +5,11 @@
  */
 package view;
 
+import java.io.File;
 import javax.swing.ButtonGroup;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -38,6 +42,8 @@ public class OpcoesXML extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         buttonApiXML = new javax.swing.JButton();
         buttonApiVoltar = new javax.swing.JButton();
+        buttonProcurarArquivo = new javax.swing.JButton();
+        fieldCaminhoArquivo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -54,7 +60,12 @@ public class OpcoesXML extends javax.swing.JFrame {
 
         buttonApiXML.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         buttonApiXML.setForeground(new java.awt.Color(63, 187, 71));
-        buttonApiXML.setText("ESCOLHER");
+        buttonApiXML.setText("CONFIRMAR");
+        buttonApiXML.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonApiXMLActionPerformed(evt);
+            }
+        });
 
         buttonApiVoltar.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         buttonApiVoltar.setForeground(new java.awt.Color(220, 52, 43));
@@ -65,29 +76,44 @@ public class OpcoesXML extends javax.swing.JFrame {
             }
         });
 
+        buttonProcurarArquivo.setText("PROCURAR");
+        buttonProcurarArquivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonProcurarArquivoActionPerformed(evt);
+            }
+        });
+
+        fieldCaminhoArquivo.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(buttonApiXML)
-                .addGap(35, 35, 35))
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(buttonProcurarArquivo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(fieldCaminhoArquivo)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(opcaoSax)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(opcaoDom)
+                .addGap(27, 27, 27)
+                .addComponent(opcaoJaxb)
+                .addGap(39, 39, 39))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(opcaoSax)
-                            .addComponent(opcaoDom)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(buttonApiVoltar)
-                                .addGap(12, 12, 12))
-                            .addComponent(opcaoJaxb))))
-                .addContainerGap(63, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(buttonApiVoltar)
+                        .addGap(38, 38, 38)
+                        .addComponent(buttonApiXML)
+                        .addGap(69, 69, 69))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(107, 107, 107))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,25 +121,50 @@ public class OpcoesXML extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(26, 26, 26)
-                .addComponent(opcaoSax)
-                .addGap(31, 31, 31)
-                .addComponent(opcaoDom)
-                .addGap(26, 26, 26)
-                .addComponent(opcaoJaxb)
-                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonApiXML)
-                    .addComponent(buttonApiVoltar))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(opcaoSax)
+                    .addComponent(opcaoDom)
+                    .addComponent(opcaoJaxb))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonProcurarArquivo)
+                    .addComponent(fieldCaminhoArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonApiVoltar)
+                    .addComponent(buttonApiXML))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(260, 295));
+        setSize(new java.awt.Dimension(360, 295));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonApiVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApiVoltarActionPerformed
         this.dispose();
     }//GEN-LAST:event_buttonApiVoltarActionPerformed
+
+    private void buttonApiXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApiXMLActionPerformed
+
+    }//GEN-LAST:event_buttonApiXMLActionPerformed
+
+    private void buttonProcurarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonProcurarArquivoActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Procurar arquivo");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("XML", "xml");
+        
+        fileChooser.setFileFilter(filter);
+        int retorno = fileChooser.showOpenDialog(this);
+        
+        if(retorno == JFileChooser.APPROVE_OPTION){
+            File file = fileChooser.getSelectedFile();
+            this.fieldCaminhoArquivo.setText(file.getPath());
+        }else{
+            JOptionPane.showMessageDialog(null, "Não Importado !", null, 1);
+        }
+    }//GEN-LAST:event_buttonProcurarArquivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,6 +205,8 @@ public class OpcoesXML extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonApiVoltar;
     private javax.swing.JButton buttonApiXML;
+    private javax.swing.JButton buttonProcurarArquivo;
+    private javax.swing.JTextField fieldCaminhoArquivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JRadioButton opcaoDom;
     private javax.swing.JRadioButton opcaoJaxb;
