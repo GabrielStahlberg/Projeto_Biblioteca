@@ -5,17 +5,74 @@
  */
 package view;
 
+import dao.ObrasDAO;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author gabrielstahlberg
  */
 public class TelaCadastroObras extends javax.swing.JInternalFrame {
-
+    private List<String> autores = new ArrayList<>(5);
+    private List<String> palavrasChave = new ArrayList<>(5);
     /**
      * Creates new form JanelaUsuario
      */
     public TelaCadastroObras() {
         initComponents();
+        buscaCategorias();
+        
+    }
+    
+    private void buscaCategorias(){
+        ObrasDAO obrasDAO = new ObrasDAO();
+        List<String> listaCategorias = obrasDAO.buscarCategoriasObra();
+        for(int i=0; i<listaCategorias.size(); i++){
+            this.comboCategoria.addItem(listaCategorias.get(i));
+        }
+    }
+    
+    private void cadastraObra(){
+        if(validaCampos()){
+            String titulo = this.fieldTitulo.getText();
+            String isbn = this.fieldIsbn.getText();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataPubl = LocalDate.parse(fieldDataPubl.getText(), formatter);
+            String editora = this.fieldEditora.getText();
+            int nroEdicao = Integer.parseInt(this.fieldNEdicao.getText());
+            String categoria = (String)this.comboCategoria.getSelectedItem();
+        }else{
+            JOptionPane.showMessageDialog(null, "Preencha os campos corretamente", null, 2);
+        }
+    }
+    
+    private boolean validaCampos(){
+        boolean retorno = true;
+        
+        if(this.fieldDataPubl.equals("") || 
+           this.fieldEditora.equals("")  || 
+           this.fieldIsbn.equals("")     ||
+           this.fieldNEdicao.equals("")  || 
+           this.fieldTitulo.equals("")   ||
+           this.autores.size() == 0      ||
+           this.palavrasChave.size() == 0)
+        {
+            retorno = false;
+        }
+        return retorno;
+    }
+    
+    private void limpaCampos(){
+        this.fieldDataPubl.setText(null);
+        this.fieldEditora.setText(null);
+        this.fieldIsbn.setText(null);
+        this.fieldNEdicao.setText(null);
+        this.fieldTitulo.setText(null);
+        this.fieldTitulo.requestFocus();
     }
 
     /**
@@ -84,8 +141,6 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
 
         labelCategoria.setText("Categoria*");
 
-        comboCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Terror", "Romance", "Drama", "Curiosidades" }));
-
         labelISBN.setText("ISBN*");
         labelISBN.setToolTipText("");
 
@@ -109,10 +164,25 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
         buttonCadastrar.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
         buttonCadastrar.setForeground(new java.awt.Color(63, 187, 71));
         buttonCadastrar.setText("CADASTRAR");
+        buttonCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCadastrarActionPerformed(evt);
+            }
+        });
 
         buttonAddPalavra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
+        buttonAddPalavra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddPalavraActionPerformed(evt);
+            }
+        });
 
         buttonAddAutor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add_user.png"))); // NOI18N
+        buttonAddAutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddAutorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -253,6 +323,26 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
         opcoesJSON.setVisible(true);
     }//GEN-LAST:event_buttonJSONActionPerformed
 
+    private void buttonAddAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddAutorActionPerformed
+        if(!this.fieldAutor.getText().equals("")){
+            this.autores.add(this.fieldAutor.getText());
+            this.fieldAutor.setText(null);
+            this.fieldAutor.requestFocus();
+        }
+    }//GEN-LAST:event_buttonAddAutorActionPerformed
+
+    private void buttonAddPalavraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddPalavraActionPerformed
+        if(!this.fieldPalavraChave.getText().equals("")){
+            this.palavrasChave.add(this.fieldPalavraChave.getText());
+            this.fieldPalavraChave.setText(null);
+            this.fieldPalavraChave.requestFocus(true);
+        }
+    }//GEN-LAST:event_buttonAddPalavraActionPerformed
+
+    private void buttonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarActionPerformed
+        cadastraObra();
+        limpaCampos();
+    }//GEN-LAST:event_buttonCadastrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddAutor;
