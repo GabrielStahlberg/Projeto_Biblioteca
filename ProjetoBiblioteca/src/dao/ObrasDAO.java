@@ -38,6 +38,24 @@ public class ObrasDAO {
         }
     }
     
+    public List<String> buscarObras(){
+        String sql = "select obra_titulo from obras";
+        List<String> obras = new ArrayList<>(50);
+        
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql);
+                ResultSet rs = pStat.executeQuery()
+            ){
+            while(rs.next()){
+                obras.add(rs.getString("obra_titulo"));
+            }
+            return obras;
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
+    
     public String buscarCategoriasObraCod(String categoria){
         String sql = "select cat_obra_cod from categoria_obra where upper(cat_obra_desc) = upper(?)";
         try(                

@@ -39,6 +39,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         menuCad = new javax.swing.JMenu();
         itemCadBook = new javax.swing.JMenuItem();
+        itemExemplares = new javax.swing.JMenuItem();
         menuOption = new javax.swing.JMenu();
         itemBooks = new javax.swing.JMenuItem();
         itemLoan = new javax.swing.JMenuItem();
@@ -75,6 +76,15 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             }
         });
         menuCad.add(itemCadBook);
+
+        itemExemplares.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.ALT_MASK));
+        itemExemplares.setText("Exemplares");
+        itemExemplares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemExemplaresActionPerformed(evt);
+            }
+        });
+        menuCad.add(itemExemplares);
 
         menuBar.add(menuCad);
 
@@ -215,6 +225,13 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         desktopArea.add(telaRelatorio);
     }//GEN-LAST:event_itemBooksActionPerformed
 
+    private void itemExemplaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemExemplaresActionPerformed
+        desktopArea.removeAll();
+        TelaExemplares telaExemplares = new TelaExemplares();
+        telaExemplares.setVisible(true);
+        desktopArea.add(telaExemplares);
+    }//GEN-LAST:event_itemExemplaresActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -256,6 +273,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     public static javax.swing.JMenuItem itemBooks;
     public static javax.swing.JMenuItem itemCadBook;
     private javax.swing.JMenuItem itemDevolution;
+    private javax.swing.JMenuItem itemExemplares;
     private javax.swing.JMenuItem itemExit;
     private javax.swing.JMenuItem itemLoan;
     private javax.swing.JMenuItem itemPendency;
