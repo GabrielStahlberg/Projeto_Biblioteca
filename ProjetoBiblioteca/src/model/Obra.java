@@ -48,6 +48,8 @@ public class Obra {
     
     @XmlElement(name = "categoria")
     private String categoriaCod;
+    
+    private List<Exemplar> exemplares;
 
     public Obra(String titulo, String isbn, String editora, LocalDate dataPubl, List<String> autores, List<String> palavrasChaves, int nroEdicao, String categoria) {
         this.titulo = titulo;
@@ -66,7 +68,7 @@ public class Obra {
 
     @Override
     public String toString() {
-        return "Obra{" + "titulo=" + getTitulo() + ", isbn=" + getIsbn() + ", editora=" + getEditora() + ", dataPubl=" + getDataPubl() + ", autores=" + getAutores() + ", palavrasChaves=" + getPalavrasChaves() + ", nroEdicao=" + getNroEdicao() + ", categoria=" + getCategoria() + '}';
+        return "Obra{" + "titulo=" + getTitulo() + ", isbn=" + getIsbn() + ", editora=" + getEditora() + ", dataPubl=" + getDataPubl() + ", autores=" + getAutores() + ", palavrasChaves=" + getPalavrasChaves() + ", nroEdicao=" + getNroEdicao() + ", categoria=" + getCategoria() + ", exemplares=" + getExemplares() + '}';
     }
 
     public String getTitulo() {
@@ -131,6 +133,14 @@ public class Obra {
 
     public void setCategoria(String categoria) {
         this.categoriaCod = categoria;
+    }
+
+    public List<Exemplar> getExemplares() {
+        return exemplares;
+    }
+
+    public void setExemplares(List<Exemplar> exemplares) {
+        this.exemplares = exemplares;
     }
     
     

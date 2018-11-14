@@ -114,6 +114,7 @@ public class ObrasDAO {
         List<Obra> obras = new ArrayList<>();
         PalavrasChaveDAO pCDAO = new PalavrasChaveDAO();
         AutoresDAO aDAO = new AutoresDAO();
+        ExemplaresDAO eDAO = new ExemplaresDAO();
         try(                
                 Connection con = ConexaoBD.getInstance().getConnection();
                 PreparedStatement pStat = con.prepareStatement(sql)
@@ -139,6 +140,8 @@ public class ObrasDAO {
                     else{
                         o.setDataPubl(rs.getDate("data_publ").toLocalDate());
                     }
+                    o.setExemplares(eDAO.buscarExemplares(o.getIsbn()));
+                    
                     
                     System.out.println(o);
 
