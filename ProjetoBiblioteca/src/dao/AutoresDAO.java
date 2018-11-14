@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import model.Obra;
 
@@ -45,4 +46,26 @@ public class AutoresDAO {
         }
     }
     
+    public List<String> buscar(String obra_Isbn){
+        String sql = "select * from autores where obra_isbn = ?";
+        List<String> autores = new ArrayList<>();
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql);
+            ){
+            pStat.setString(1, obra_Isbn);
+            
+            try(ResultSet rs = pStat.executeQuery()){
+                while(rs.next()){
+                    autores.add(rs.getString("autor_nome"));
+                }
+                
+                return autores;
+                
+            }
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
+        
 }

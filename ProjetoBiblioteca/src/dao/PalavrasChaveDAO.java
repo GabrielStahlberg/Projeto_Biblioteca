@@ -8,7 +8,9 @@ package dao;
 import bd.ConexaoBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import model.Obra;
 
@@ -40,6 +42,28 @@ public class PalavrasChaveDAO {
             }
         }
         catch(SQLException erro) {
+            throw new RuntimeException(erro);
+        }
+    }
+    
+    public List<String> buscar(String obra_Isbn){
+        String sql = "select * from palavras_chave where obra_isbn = ?";
+        List<String> palavrasChave = new ArrayList<>();
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql);
+            ){
+            pStat.setString(1, obra_Isbn);
+            
+            try(ResultSet rs = pStat.executeQuery()){
+                while(rs.next()){
+                    palavrasChave.add(rs.getString("palavra"));
+                }
+                
+                return palavrasChave;
+                
+            }
+        }catch(SQLException erro){
             throw new RuntimeException(erro);
         }
     }

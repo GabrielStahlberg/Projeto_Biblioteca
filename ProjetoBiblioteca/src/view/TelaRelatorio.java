@@ -5,6 +5,12 @@
  */
 package view;
 
+import dao.ObrasDAO;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.Obra;
+
 /**
  *
  * @author gabrielstahlberg
@@ -81,6 +87,11 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         buttonAcervo.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
         buttonAcervo.setForeground(new java.awt.Color(63, 187, 71));
         buttonAcervo.setText("GERAR RELATÓRIO");
+        buttonAcervo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAcervoActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
         jLabel1.setText("Exportar como:");
@@ -179,6 +190,20 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         opcoesPDF.setVisible(true);
     }//GEN-LAST:event_buttonPDFActionPerformed
 
+    private void buttonAcervoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcervoActionPerformed
+        ObrasDAO oDAO = new ObrasDAO();
+        List<Obra> obras = oDAO.realizarRelatorio(0, 10);
+        
+        //Aqui precisa integrar com a interface e fazer a paginação
+        
+        
+    }//GEN-LAST:event_buttonAcervoActionPerformed
+
+    private String arrumarLists(List<String> lista){
+        StringBuilder build = new StringBuilder();
+        lista.forEach(s -> build.append(String.format("%s,",s)));
+        return build.toString();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAcervo;
