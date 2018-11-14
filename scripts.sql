@@ -44,7 +44,8 @@ create table obras(
     obra_editora varchar(50) not null,
     obra_titulo varchar(50) not null,
     obra_num_edicao number,
-    obra_qtde_total number not null,
+    obra_qtde_total number default 1,
+    data_publ date,
     cat_obra_cod varchar(10) not null,
     
     constraint cat_obra_fk foreign key(cat_obra_cod) references categoria_obra(cat_obra_cod) on delete cascade
@@ -140,8 +141,8 @@ insert into autores(autor_nro, autor_nome, obra_isbn)values(autores_seq.nextval,
 insert into autores(autor_nro, autor_nome, obra_isbn)values(autores_seq.nextval, 'Gabriel', '147-74-147-0554-1');
 insert into autores(autor_nro, autor_nome, obra_isbn)values(autores_seq.nextval, 'Charles Perrault', '258-85-258-8888-2');
 
-insert into obras(obra_isbn, obra_editora, obra_titulo, obra_num_edicao, obra_qtde_total, cat_obra_cod)values('147-74-147-0554-1', 'Francisco de Robles', 'Dom Quixote', 1, 10, 'LIV');
-insert into obras(obra_isbn, obra_editora, obra_titulo, obra_num_edicao, obra_qtde_total, cat_obra_cod)values('258-85-258-8888-2', 'Ática', 'O Pequeno Polegar', 2, 10, 'LIV');
+insert into obras(obra_isbn, obra_editora, obra_titulo, obra_num_edicao, obra_qtde_total, data_publ, cat_obra_cod)values('147-74-147-0554-1', 'Francisco de Robles', 'Dom Quixote', 1, 10, sysdate, 'LIV');
+insert into obras(obra_isbn, obra_editora, obra_titulo, obra_num_edicao, obra_qtde_total, data_publ, cat_obra_cod)values('258-85-258-8888-2', 'Ática', 'O Pequeno Polegar', 2, 10, sysdate, 'LIV');
 
 insert into exemplares(exemplar_id, obra_isbn)values(EXEMPLAR_SEQ.nextval, '258-85-258-8888-2');
 

@@ -39,6 +39,7 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
     
     private void cadastraObra(){
         if(validaCampos()){
+            ObrasDAO obrasDAO = new ObrasDAO();
             String titulo = this.fieldTitulo.getText();
             String isbn = this.fieldIsbn.getText();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -47,9 +48,13 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
             int nroEdicao = Integer.parseInt(this.fieldNEdicao.getText());
             String categoria = (String)this.comboCategoria.getSelectedItem();
             
-            Obra obra = new Obra(titulo, isbn, editora, dataPubl, this.autores, this.palavrasChave, nroEdicao, categoria);
+            String codigoCat = obrasDAO.buscarCategoriasObraCod(categoria);
             
+            Obra obra = new Obra(titulo, isbn, editora, dataPubl, this.autores, this.palavrasChave, nroEdicao, codigoCat);            
             System.out.println(obra.toString());
+            
+            obrasDAO.salvar(obra);
+            
         }else{
             JOptionPane.showMessageDialog(null, "Preencha os campos corretamente", null, 2);
         }
@@ -319,7 +324,7 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXMLActionPerformed
-        OpcoesXML opcoesXML = new OpcoesXML();
+        OpcoesXML opcoesXML = new OpcoesXML(true);
         opcoesXML.setVisible(true);
     }//GEN-LAST:event_buttonXMLActionPerformed
 

@@ -165,7 +165,7 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonXMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXMLActionPerformed
-        OpcoesXML opcoesXML = new OpcoesXML();
+        OpcoesXML opcoesXML = new OpcoesXML(false);
         opcoesXML.setVisible(true);
     }//GEN-LAST:event_buttonXMLActionPerformed
 

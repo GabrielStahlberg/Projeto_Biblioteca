@@ -16,18 +16,35 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author gabrielstahlberg
  */
 public class OpcoesXML extends javax.swing.JFrame {
-
+    private boolean isImportacao;
     /**
      * Creates new form OpcoesXML
      */
-    public OpcoesXML() {
+    public OpcoesXML(boolean isImportacao) {
         initComponents();
         fileEscolhida = null;
         this.group.add(this.opcaoDom);
         this.group.add(this.opcaoSax);
         this.group.add(this.opcaoJaxb);
+        this.isImportacao = isImportacao;
+        configuraJanela();
     }
 
+    public OpcoesXML() {
+    }
+    
+    
+    private void configuraJanela(){
+        if(!this.isImportacao){
+            this.buttonApiXML.setText("SALVAR");
+            this.buttonProcurarArquivo.setText("SALVAR EM:");
+            this.opcaoSax.setEnabled(false);
+            
+            // Verificar possibilidade de escolher onde salvar
+            this.buttonProcurarArquivo.setEnabled(false);
+            this.fieldCaminhoArquivo.setEnabled(false);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,6 +62,9 @@ public class OpcoesXML extends javax.swing.JFrame {
         buttonApiVoltar = new javax.swing.JButton();
         buttonProcurarArquivo = new javax.swing.JButton();
         fieldCaminhoArquivo = new javax.swing.JTextField();
+        barraProgresso = new javax.swing.JProgressBar();
+        jLabel2 = new javax.swing.JLabel();
+        labelQuantidade = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -86,6 +106,8 @@ public class OpcoesXML extends javax.swing.JFrame {
 
         fieldCaminhoArquivo.setEditable(false);
 
+        labelQuantidade.setText("o");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,7 +121,7 @@ public class OpcoesXML extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(opcaoSax)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(opcaoDom)
                 .addGap(27, 27, 27)
                 .addComponent(opcaoJaxb)
@@ -107,14 +129,22 @@ public class OpcoesXML extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(buttonApiVoltar)
-                        .addGap(38, 38, 38)
-                        .addComponent(buttonApiXML)
-                        .addGap(69, 69, 69))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(107, 107, 107))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(barraProgresso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelQuantidade)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addContainerGap())
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(buttonApiVoltar)
+                            .addGap(38, 38, 38)
+                            .addComponent(buttonApiXML)
+                            .addGap(69, 69, 69))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(107, 107, 107)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,10 +164,17 @@ public class OpcoesXML extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonApiVoltar)
                     .addComponent(buttonApiXML))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelQuantidade)
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel2))
+                    .addComponent(barraProgresso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
         );
 
-        setSize(new java.awt.Dimension(360, 295));
+        setSize(new java.awt.Dimension(360, 330));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -160,9 +197,17 @@ public class OpcoesXML extends javax.swing.JFrame {
             else if(opcaoJaxb.isSelected()){
                 selected = 3;
             }
-            
-            ImportacaoBackground importacao = new ImportacaoBackground(selected,fileEscolhida);
-            importacao.run();
+            if(this.isImportacao){
+                ImportacaoBackground importacao = new ImportacaoBackground(selected,fileEscolhida, this.labelQuantidade);
+                importacao.addPropertyChangeListener(e -> {
+                    if(e.getPropertyName().equals("progress")){
+                        this.barraProgresso.setValue((Integer)e.getNewValue());
+                    }
+                });
+                importacao.execute();
+            }else{
+                
+            }
         }
     }//GEN-LAST:event_buttonApiXMLActionPerformed
 
@@ -179,8 +224,6 @@ public class OpcoesXML extends javax.swing.JFrame {
         if(retorno == JFileChooser.APPROVE_OPTION){
             fileEscolhida = fileChooser.getSelectedFile();
             this.fieldCaminhoArquivo.setText(fileEscolhida.getPath());
-        }else{
-            JOptionPane.showMessageDialog(null, "Não Importado !", null, 1);
         }
     }//GEN-LAST:event_buttonProcurarArquivoActionPerformed
 
@@ -222,11 +265,14 @@ public class OpcoesXML extends javax.swing.JFrame {
     private ButtonGroup group = new ButtonGroup();
     private File fileEscolhida;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar barraProgresso;
     private javax.swing.JButton buttonApiVoltar;
     private javax.swing.JButton buttonApiXML;
     private javax.swing.JButton buttonProcurarArquivo;
     private javax.swing.JTextField fieldCaminhoArquivo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel labelQuantidade;
     private javax.swing.JRadioButton opcaoDom;
     private javax.swing.JRadioButton opcaoJaxb;
     private javax.swing.JRadioButton opcaoSax;

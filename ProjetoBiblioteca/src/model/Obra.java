@@ -5,7 +5,7 @@
  */
 package model;
 
-import ifsp.dsi.xml.DataAdapter;
+import xml.DataAdapter;
 import java.time.LocalDate;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -47,7 +47,7 @@ public class Obra {
     private int nroEdicao;
     
     @XmlElement(name = "categoria")
-    private String categoria;
+    private String categoriaCod;
 
     public Obra(String titulo, String isbn, String editora, LocalDate dataPubl, List<String> autores, List<String> palavrasChaves, int nroEdicao, String categoria) {
         this.titulo = titulo;
@@ -57,7 +57,7 @@ public class Obra {
         this.autores = autores;
         this.palavrasChaves = palavrasChaves;
         this.nroEdicao = nroEdicao;
-        this.categoria = categoria;
+        this.categoriaCod = categoria;
     }
     
     public Obra(){
@@ -126,11 +126,11 @@ public class Obra {
     }
 
     public String getCategoria() {
-        return categoria;
+        return categoriaCod;
     }
 
     public void setCategoria(String categoria) {
-        this.categoria = categoria;
+        this.categoriaCod = categoria;
     }
     
     

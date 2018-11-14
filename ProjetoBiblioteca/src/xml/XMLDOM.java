@@ -1,4 +1,4 @@
-package ifsp.dsi.xml;
+package xml;
 
 import java.io.File;
 import java.io.IOException;

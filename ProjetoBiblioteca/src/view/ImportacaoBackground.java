@@ -5,14 +5,17 @@
  */
 package view;
 
-import ifsp.dsi.xml.XMLDOM;
-import ifsp.dsi.xml.XMLJAXB;
-import ifsp.dsi.xml.XMLSax;
+import dao.ObrasDAO;
+import xml.XMLDOM;
+import xml.XMLJAXB;
+import xml.XMLSax;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import javax.swing.JLabel;
 import javax.swing.SwingWorker;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -25,18 +28,23 @@ import org.xml.sax.SAXException;
  *
  * @author MiND
  */
-public class ImportacaoBackground extends SwingWorker<Integer,String>{
+public class ImportacaoBackground extends SwingWorker<Integer,Object>{
 
     private int selected;
     private File xmlFile;
+    private JLabel label;
+    private int total;
+    private List<Obra> books;
     
-    public ImportacaoBackground(int selected, File xmlFile){
+    public ImportacaoBackground(int selected, File xmlFile, JLabel label){
         this.selected = selected;
         this.xmlFile = xmlFile;
+        this.label = label;
+        
+        fazImportacao();        
     }
     
-    @Override
-    protected Integer doInBackground() throws Exception {
+    private void fazImportacao(){
         if(selected == 1){
             withSAX();
         }
@@ -46,8 +54,38 @@ public class ImportacaoBackground extends SwingWorker<Integer,String>{
         else if(selected == 3){
             withJAXB();
         }
-        
-        return 1;
+    }
+    
+    @Override
+    protected Integer doInBackground() throws Exception {
+        ObrasDAO obrasDAO = new ObrasDAO();
+        try{        
+            for(int i=0; i<this.total; i++){
+                String codigo = obrasDAO.buscarCategoriasObraCod(this.books.get(i).getCategoria());
+                this.books.get(i).setCategoria(codigo);
+                obrasDAO.salvar(this.books.get(i));
+                
+                publish(i);
+                setProgress(100 * (i+1) / total);
+            }
+        }catch(Exception erro){
+            erro.printStackTrace();
+        }
+        return this.total;
+    }
+    
+    @Override
+    protected void done() {
+        try {
+            label.setText(get().toString());
+        } catch (InterruptedException | ExecutionException erro) {
+            erro.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void process(List<Object> lista) {
+        lista.forEach(o -> System.out.println(o));
     }
     
     private void withSAX(){
@@ -56,9 +94,11 @@ public class ImportacaoBackground extends SwingWorker<Integer,String>{
             SAXParser parser = factory.newSAXParser();
             XMLSax reader = new XMLSax();
             parser.parse(input,reader);
-            List<Obra> works = reader.getBooks();
+            this.books = reader.getBooks();
+            this.total = books.size();
+            
             System.out.println("SAX"); //A proposito de teste, será removido
-            works.forEach(System.out::println);
+            this.books.forEach(System.out::println);
         }
         catch(ParserConfigurationException | SAXException erro){
             erro.printStackTrace();
@@ -69,7 +109,9 @@ public class ImportacaoBackground extends SwingWorker<Integer,String>{
     
     private void withDOM(){
         XMLDOM dom = new XMLDOM(xmlFile);
-        List<Obra> books = dom.readXML();
+        this.books = dom.readXML();
+        this.total = books.size();
+        
         System.out.println("DOM"); //A proposito de teste, será removido
         books.forEach(System.out::println);
     }
@@ -77,9 +119,11 @@ public class ImportacaoBackground extends SwingWorker<Integer,String>{
     private void withJAXB(){
         XMLJAXB jax = new XMLJAXB(xmlFile);
         ObraLista bookL = (ObraLista)jax.readXML(ObraLista.class);
-        List<Obra> books = bookL.getObraList();
+        this.books = bookL.getObraList();
+        this.total = books.size();
+        
         System.out.println("JAXB"); //A proposito de teste, será removido
-        books.forEach(System.out::println);
+        this.books.forEach(System.out::println);
     }
     
 }
