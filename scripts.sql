@@ -1,4 +1,4 @@
-create table leitores(
+ create table leitores(
     leitor_id number(6) primary key,
     leitor_prontuario varchar(20),            -- Ou deixar um valor default, caso seja usuário externo e não tenha o prontuário.
     leitor_nome varchar(50) not null,
@@ -142,7 +142,7 @@ insert into autores(autor_nro, autor_nome, obra_isbn)values(autores_seq.nextval,
 insert into autores(autor_nro, autor_nome, obra_isbn)values(autores_seq.nextval, 'Charles Perrault', '258-85-258-8888-2');
 
 insert into obras(obra_isbn, obra_editora, obra_titulo, obra_num_edicao, obra_qtde_total, data_publ, cat_obra_cod)values('147-74-147-0554-1', 'Francisco de Robles', 'Dom Quixote', 1, 10, sysdate, 'LIV');
-insert into obras(obra_isbn, obra_editora, obra_titulo, obra_num_edicao, obra_qtde_total, data_publ, cat_obra_cod)values('258-85-258-8888-2', 'Ática', 'O Pequeno Polegar', 2, 10, sysdate, 'LIV');
+insert into obras(obra_isbn, obra_editora, obra_titulo, obra_num_edicao, obra_qtde_total, data_publ, cat_obra_cod)values('258-85-258-8888-2', '�?tica', 'O Pequeno Polegar', 2, 10, sysdate, 'LIV');
 
 insert into exemplares(exemplar_id, obra_isbn)values(EXEMPLAR_SEQ.nextval, '258-85-258-8888-2');
 

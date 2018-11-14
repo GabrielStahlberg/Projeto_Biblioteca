@@ -152,4 +152,47 @@ public class ObrasDAO {
             throw new RuntimeException(erro);
         }
     }
+    
+    public List<Obra> buscarNome(String nome){
+        String sql = "select * from obras where obra_titulo = ? order by obra_isbn";
+        List<Obra> obras = new ArrayList<>();
+        PalavrasChaveDAO pCDAO = new PalavrasChaveDAO();
+        AutoresDAO aDAO = new AutoresDAO();
+        ExemplaresDAO eDAO = new ExemplaresDAO();
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql)
+            ){
+            
+            pStat.setString(1, nome);
+            
+            try(ResultSet rs = pStat.executeQuery()){
+                while(rs.next()){
+                    Obra o = new Obra();
+
+                    o.setIsbn(rs.getString("obra_isbn"));
+                    o.setTitulo(rs.getString("obra_titulo"));
+                    o.setEditora(rs.getString("obra_editora"));
+                    o.setNroEdicao(rs.getInt("obra_num_edicao"));
+                    o.setAutores(aDAO.buscar(o.getIsbn()));
+                    o.setPalavrasChaves(pCDAO.buscar(o.getIsbn()));
+                    o.setCategoria(rs.getString("cat_obra_cod"));
+                    if(rs.getDate("data_publ") == null){
+                        o.setDataPubl(null);
+                    }
+                    else{
+                        o.setDataPubl(rs.getDate("data_publ").toLocalDate());
+                    }
+                    o.setExemplares(eDAO.buscarExemplares(o.getIsbn()));
+                    
+                    
+                    System.out.println(o);
+
+                }
+                return obras;
+            }
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
 }

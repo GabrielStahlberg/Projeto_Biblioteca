@@ -5,7 +5,10 @@
  */
 package view;
 
+import dao.ObrasDAO;
 import java.time.LocalDate;
+import java.util.List;
+import model.Obra;
 
 /**
  *
@@ -102,6 +105,11 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
         buttonConfirmarEmp.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
         buttonConfirmarEmp.setForeground(new java.awt.Color(63, 187, 71));
         buttonConfirmarEmp.setText("CONFIRMAR");
+        buttonConfirmarEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonConfirmarEmpActionPerformed(evt);
+            }
+        });
 
         buttonAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/previous.png"))); // NOI18N
 
@@ -183,6 +191,11 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
 
         setBounds(0, 0, 608, 493);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonConfirmarEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfirmarEmpActionPerformed
+        ObrasDAO oDAO = new ObrasDAO();
+        List<Obra> obras = oDAO.buscarNome(fieldObraPesquisada.getText());
+    }//GEN-LAST:event_buttonConfirmarEmpActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
