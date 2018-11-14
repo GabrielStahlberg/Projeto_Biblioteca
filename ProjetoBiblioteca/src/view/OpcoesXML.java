@@ -45,6 +45,8 @@ public class OpcoesXML extends javax.swing.JFrame {
             // Verificar possibilidade de escolher onde salvar
             this.buttonProcurarArquivo.setEnabled(false);
             this.fieldCaminhoArquivo.setEnabled(false);
+            this.barraProgresso.setVisible(false);
+            this.labelQuantidade.setVisible(false);
         }
     }
     /**
