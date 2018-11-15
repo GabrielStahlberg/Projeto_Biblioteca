@@ -97,6 +97,9 @@ public class ObrasDAO {
                 
                 PalavrasChaveDAO palavrasChaveDAO = new PalavrasChaveDAO();
                 palavrasChaveDAO.salvar(obra);
+                
+                ExemplaresDAO exemplaresDAO = new ExemplaresDAO();
+                exemplaresDAO.salvar(obra.getIsbn(), con);
 
                 con.commit();
             }catch (RuntimeException erro){
