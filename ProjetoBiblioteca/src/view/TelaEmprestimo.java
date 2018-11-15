@@ -7,9 +7,10 @@ package view;
 
 import dao.ObrasDAO;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import model.Obra;
-
+import net.proteanit.sql.DbUtils;
 /**
  *
  * @author gabrielstahlberg
@@ -21,7 +22,9 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
      */
     public TelaEmprestimo() {
         initComponents();
-        this.fieldDataAtual.setText(LocalDate.now().toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String data = LocalDate.now().format(formatter);
+        this.fieldDataAtual.setText(data);
     }
 
     /**

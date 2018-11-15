@@ -141,10 +141,8 @@ public class ObrasDAO {
                         o.setDataPubl(rs.getDate("data_publ").toLocalDate());
                     }
                     o.setExemplares(eDAO.buscarExemplares(o.getIsbn()));
-                    
-                    
-                    System.out.println(o);
-
+                                        
+                    obras.add(o);
                 }
                 return obras;
             }
@@ -185,9 +183,6 @@ public class ObrasDAO {
                     }
                     o.setExemplares(eDAO.buscarExemplares(o.getIsbn()));
                     
-                    
-                    System.out.println(o);
-
                 }
                 return obras;
             }

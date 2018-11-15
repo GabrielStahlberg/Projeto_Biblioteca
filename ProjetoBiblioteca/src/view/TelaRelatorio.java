@@ -6,8 +6,10 @@
 package view;
 
 import dao.ObrasDAO;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Obra;
 
@@ -16,14 +18,40 @@ import model.Obra;
  * @author gabrielstahlberg
  */
 public class TelaRelatorio extends javax.swing.JInternalFrame {
-
+    private DefaultTableModel modelDepart;
     /**
      * Creates new form TelaRelatorio
      */
     public TelaRelatorio() {
         initComponents();
+        this.modelDepart = (DefaultTableModel) tableAcervo.getModel();
     }
 
+    private void populaTabela(List<Obra> lista){
+        for(int i=0; i<lista.size(); i++){
+            StringBuffer sbAutores = new StringBuffer();
+            StringBuffer sbPalavras = new StringBuffer();
+            String titulo = lista.get(i).getTitulo();
+            List<String> autores = lista.get(i).getAutores();
+            for(int a=0; a<autores.size(); a++){
+                sbAutores.append(autores.get(a));
+                sbAutores.append(",");
+            }
+            List<String> palavras = lista.get(i).getPalavrasChaves();
+            for(int p=0; p<palavras.size(); p++){
+                sbPalavras.append(palavras.get(p));
+                sbPalavras.append(",");
+            }
+            String isbn = lista.get(i).getIsbn();
+            LocalDate dataPubl = lista.get(i).getDataPubl();
+            String editora = lista.get(i).getEditora();
+            String categoria = lista.get(i).getCategoria();
+            int nroEdicao = lista.get(i).getNroEdicao();
+            
+            Object[] line = new Object[]{titulo, sbAutores.toString(), sbPalavras.toString(), isbn, dataPubl, editora, categoria, nroEdicao};
+            modelDepart.addRow(line);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,31 +78,24 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
 
         tableAcervo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Título", "Autor", "Palavra Chave", "ISBN", "Data Publ.", "Editora", "Categoria", "Nº Edição", "Total Exemplares", "Total Disp."
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true, true, true, true, true
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tableAcervo.setAutoscrolls(false);
         tableAcervo.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(tableAcervo);
+        tableAcervo.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         buttonAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/previous.png"))); // NOI18N
 
@@ -194,6 +215,8 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         ObrasDAO oDAO = new ObrasDAO();
         List<Obra> obras = oDAO.realizarRelatorio(0, 10);
         
+        
+        populaTabela(obras);
         //Aqui precisa integrar com a interface e fazer a paginação
         
         
