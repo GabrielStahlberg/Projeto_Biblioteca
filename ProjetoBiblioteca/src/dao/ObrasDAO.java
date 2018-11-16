@@ -73,6 +73,22 @@ public class ObrasDAO {
         }
     }
     
+    public String buscaObraIsbn(String titulo){
+        String sql = "select obra_isbn from obras where upper(obra_titulo) = upper(?)";
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql)                
+            ){
+            pStat.setString(1, titulo);
+            ResultSet rs = pStat.executeQuery();
+                    
+            rs.next();            
+            return rs.getString("obra_isbn");
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
+    
     public void salvar(Obra obra){
         String sql = "insert into obras(obra_isbn,obra_editora,obra_titulo,obra_num_edicao, data_publ, cat_obra_cod) "
                 + "values(?,?,?,?,?,?)";

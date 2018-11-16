@@ -5,8 +5,10 @@
  */
 package view;
 
+import dao.ExemplaresDAO;
 import dao.ObrasDAO;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,6 +30,30 @@ public class TelaExemplares extends javax.swing.JInternalFrame {
         for(int i=0; i<listaObras.size(); i++){
             this.comboObras.addItem(listaObras.get(i));
         }
+    }
+    
+    private void adicionaExemplares(){
+        ExemplaresDAO exemplaresDAO = new ExemplaresDAO();
+        ObrasDAO obrasDAO = new ObrasDAO();
+        String tituloObra = (String)comboObras.getSelectedItem();
+        String isbn = obrasDAO.buscaObraIsbn(tituloObra);
+        
+        if(!this.fieldQtdeExemplares.getText().equals("")){
+            int qtde = Integer.parseInt(this.fieldQtdeExemplares.getText());
+            if(qtde < 1){
+                JOptionPane.showMessageDialog(null, "Quantidade inválida", null, 2);
+            }else{
+                for(int i=0; i<qtde; i++){
+                    exemplaresDAO.salvar2(isbn);
+                }
+                JOptionPane.showMessageDialog(null, "Exemplares cadastrados com sucesso", null, 1);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Preencha o campo corretamente", null, 2);
+        }
+        
+
+
     }
 
     /**
@@ -119,7 +145,8 @@ public class TelaExemplares extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAdicionarExemplaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAdicionarExemplaresActionPerformed
-
+        adicionaExemplares();
+        this.fieldQtdeExemplares.setText(null);
     }//GEN-LAST:event_buttonAdicionarExemplaresActionPerformed
 
 

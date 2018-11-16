@@ -5,6 +5,7 @@
  */
 package view;
 
+import dao.ExemplaresDAO;
 import dao.ObrasDAO;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +28,9 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         this.modelDepart = (DefaultTableModel) tableAcervo.getModel();
     }
 
-    private void populaTabela(List<Obra> lista){
+    private void populaTabela(List<Obra> lista){        
+        ExemplaresDAO exemplaresDAO = new ExemplaresDAO();
+        
         for(int i=0; i<lista.size(); i++){
             StringBuffer sbAutores = new StringBuffer();
             StringBuffer sbPalavras = new StringBuffer();
@@ -47,8 +50,10 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
             String editora = lista.get(i).getEditora();
             String categoria = lista.get(i).getCategoria();
             int nroEdicao = lista.get(i).getNroEdicao();
+            int totalExemplares = exemplaresDAO.totalExemplares(isbn);
+            int totalDisponivel = exemplaresDAO.totalDisponiveis(isbn);
             
-            Object[] line = new Object[]{titulo, sbAutores.toString(), sbPalavras.toString(), isbn, dataPubl, editora, categoria, nroEdicao};
+            Object[] line = new Object[]{titulo, sbAutores.toString(), sbPalavras.toString(), isbn, dataPubl, editora, categoria, nroEdicao, totalExemplares, totalDisponivel};
             modelDepart.addRow(line);
         }
     }
@@ -215,11 +220,7 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         ObrasDAO oDAO = new ObrasDAO();
         List<Obra> obras = oDAO.realizarRelatorio(0, 10);
         
-        
         populaTabela(obras);
-        //Aqui precisa integrar com a interface e fazer a paginação
-        
-        
     }//GEN-LAST:event_buttonAcervoActionPerformed
 
     private String arrumarLists(List<String> lista){
