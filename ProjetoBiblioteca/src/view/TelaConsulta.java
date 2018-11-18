@@ -48,16 +48,7 @@ public class TelaConsulta extends javax.swing.JInternalFrame {
 
         tablePendentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Data Emprestimo", "Data prevista", "Título", "Nº Edição", "Identificação", "Nome Leitor", "Cat. Leitor"
@@ -73,6 +64,7 @@ public class TelaConsulta extends javax.swing.JInternalFrame {
         });
         tablePendentes.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(tablePendentes);
+        tablePendentes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         buttonAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/previous.png"))); // NOI18N
 

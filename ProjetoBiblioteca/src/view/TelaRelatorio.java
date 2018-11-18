@@ -57,6 +57,7 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
             modelDepart.addRow(line);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -219,8 +220,8 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
     private void buttonAcervoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcervoActionPerformed
         ObrasDAO oDAO = new ObrasDAO();
         List<Obra> obras = oDAO.realizarRelatorio(0, 10);
-        
         populaTabela(obras);
+        this.buttonAcervo.setEnabled(false);
     }//GEN-LAST:event_buttonAcervoActionPerformed
 
     private String arrumarLists(List<String> lista){

@@ -5,10 +5,12 @@
  */
 package view;
 
+import dao.LeitoresDAO;
 import dao.ObrasDAO;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.Obra;
 import net.proteanit.sql.DbUtils;
 /**
@@ -52,6 +54,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
         buttonAnterior = new javax.swing.JButton();
         buttonProximo = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        buttonAddPront = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -64,6 +67,11 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
         jLabel2.setText("Tipo leitor:");
 
         fieldTipoLeitor.setEditable(false);
+        fieldTipoLeitor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fieldTipoLeitorActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Informe o título da obra:");
 
@@ -75,16 +83,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
 
         tableObras.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Título", "Autor", "Categoria", "Editora", "ISBN"
@@ -100,6 +99,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
         });
         tableObras.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(tableObras);
+        tableObras.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         jLabel6.setFont(new java.awt.Font("Noto Sans", 1, 16)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(192, 49, 63));
@@ -121,6 +121,13 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Noto Sans", 1, 16)); // NOI18N
         jLabel7.setText("2");
 
+        buttonAddPront.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
+        buttonAddPront.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddProntActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,48 +139,56 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldProntuario, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldTipoLeitor, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldDataAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldObraPesquisada, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel7)))
-                        .addGap(0, 28, Short.MAX_VALUE))
+                                .addComponent(jLabel7))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(218, 218, 218)
+                                        .addComponent(buttonAddPront, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(fieldTipoLeitor, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(29, 29, 29))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(34, 34, 34)
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(fieldObraPesquisada, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel5)))
+                        .addGap(0, 67, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(buttonAnterior)
                         .addGap(170, 170, 170)
                         .addComponent(buttonConfirmarEmp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonProximo)))
+                        .addComponent(buttonProximo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fieldProntuario, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fieldDataAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(fieldProntuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(fieldTipoLeitor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(fieldDataAtual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                    .addComponent(fieldDataAtual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonAddPront))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(fieldObraPesquisada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,7 +200,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                     .addComponent(buttonConfirmarEmp)
                     .addComponent(buttonAnterior)
                     .addComponent(buttonProximo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
@@ -198,10 +213,34 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
     private void buttonConfirmarEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfirmarEmpActionPerformed
         ObrasDAO oDAO = new ObrasDAO();
         List<Obra> obras = oDAO.buscarNome(fieldObraPesquisada.getText());
+        
+      
     }//GEN-LAST:event_buttonConfirmarEmpActionPerformed
+
+    private void fieldTipoLeitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldTipoLeitorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fieldTipoLeitorActionPerformed
+
+    private void buttonAddProntActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddProntActionPerformed
+        if(this.fieldProntuario.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Preencha o campo corretamente", null, 2);
+        }else{
+            LeitoresDAO leitoresDAO = new LeitoresDAO();
+            String prontuario = this.fieldProntuario.getText();
+            
+            if(leitoresDAO.totalPeloProntuario(prontuario) == 0){
+                JOptionPane.showMessageDialog(null, "Prontuário não encontrado.", null, 2);
+                this.fieldProntuario.setText(null);
+            }else{
+                String tipoLeitor = leitoresDAO.buscaTipoLeitor(prontuario);
+                this.fieldTipoLeitor.setText(tipoLeitor);
+            }
+        }
+    }//GEN-LAST:event_buttonAddProntActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonAddPront;
     private javax.swing.JButton buttonAnterior;
     private javax.swing.JButton buttonConfirmarEmp;
     private javax.swing.JButton buttonProximo;
