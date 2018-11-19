@@ -10,6 +10,7 @@ import dao.ObrasDAO;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Obra;
@@ -25,11 +26,16 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
      */
     public TelaRelatorio() {
         initComponents();
+        this.inicio = 0;
+        this.fim = 9;
         this.modelDepart = (DefaultTableModel) tableAcervo.getModel();
+        this.buttonProximo.setEnabled(false);
+        this.buttonAnterior.setEnabled(false);
     }
 
     private void populaTabela(List<Obra> lista){        
         ExemplaresDAO exemplaresDAO = new ExemplaresDAO();
+        modelDepart.setRowCount(0);
         
         for(int i=0; i<lista.size(); i++){
             StringBuffer sbAutores = new StringBuffer();
@@ -105,8 +111,18 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         tableAcervo.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         buttonAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/previous.png"))); // NOI18N
+        buttonAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnteriorActionPerformed(evt);
+            }
+        });
 
         buttonProximo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/next.png"))); // NOI18N
+        buttonProximo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonProximoActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Noto Sans", 2, 36)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(52, 19, 158));
@@ -219,18 +235,54 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buttonPDFActionPerformed
 
     private void buttonAcervoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcervoActionPerformed
-        ObrasDAO oDAO = new ObrasDAO();
-        List<Obra> obras = oDAO.realizarRelatorio(0, 10);
-        populaTabela(obras);
+        this.inicio = 0;
+        this.fim = 9;
         this.buttonAcervo.setEnabled(false);
+        this.buttonProximo.setEnabled(true);
+        this.buttonAnterior.setEnabled(true);
+        fazerRelatorio();
     }//GEN-LAST:event_buttonAcervoActionPerformed
 
+    private void buttonProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonProximoActionPerformed
+        inicio += 10;
+        fim += 10;
+        if(!fazerRelatorio()){
+            inicio -= 10;
+            fim -= 10;
+        }
+    }//GEN-LAST:event_buttonProximoActionPerformed
+
+    private void buttonAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnteriorActionPerformed
+        inicio -= 10;
+        fim -= 10;
+        if(!fazerRelatorio()){
+            inicio += 10;
+            fim += 10;
+        }
+    }//GEN-LAST:event_buttonAnteriorActionPerformed
+
+    private boolean fazerRelatorio(){
+        ObrasDAO oDAO = new ObrasDAO();
+        List<Obra> obras = oDAO.realizarRelatorio(inicio, fim);
+        if(obras.isEmpty()){
+            JOptionPane.showMessageDialog(null, "A pagina em que você quer navegar não foi encontrada", "Pagina não existe", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        else{
+            populaTabela(obras);
+            this.buttonAcervo.setEnabled(false);
+            return true;
+        }
+    }
+    
     private String arrumarLists(List<String> lista){
         StringBuilder build = new StringBuilder();
         lista.forEach(s -> build.append(String.format("%s,",s)));
         return build.toString();
     }
-
+    
+    private int inicio;
+    private int fim;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAcervo;
     private javax.swing.JButton buttonAnterior;
