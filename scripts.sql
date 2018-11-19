@@ -177,6 +177,13 @@ create table emprestimos(
     foreign key(func_id) references funcionarios(func_id) on delete cascade
 );
 
+create sequence emprestimos_seq
+increment by 1
+start with 1
+maxvalue 100000
+nocache
+nocycle;
+
 insert into categoria_leitor(cat_leitor_cod, cat_leitor_desc, cat_leitor_max_dias)
 values ('SERV', 'Servidores', 20);
 

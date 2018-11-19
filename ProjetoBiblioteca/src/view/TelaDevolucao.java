@@ -5,6 +5,8 @@
  */
 package view;
 
+import dao.EmprestimoDAO;
+import dao.LeitoresDAO;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -34,7 +36,7 @@ public class TelaDevolucao extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        fieldIsbnDev = new javax.swing.JTextField();
+        fieldIDDev = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         fieldProntuarioDev = new javax.swing.JTextField();
         fieldDataAtual = new javax.swing.JTextField();
@@ -58,6 +60,11 @@ public class TelaDevolucao extends javax.swing.JInternalFrame {
         buttonConfirmarDev.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
         buttonConfirmarDev.setForeground(new java.awt.Color(63, 187, 71));
         buttonConfirmarDev.setText("CONFIRMAR");
+        buttonConfirmarDev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonConfirmarDevActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Noto Sans", 2, 48)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(52, 19, 158));
@@ -80,7 +87,7 @@ public class TelaDevolucao extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fieldIsbnDev, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(fieldIDDev, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -99,7 +106,7 @@ public class TelaDevolucao extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(fieldIsbnDev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fieldIDDev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(fieldProntuarioDev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
@@ -112,11 +119,18 @@ public class TelaDevolucao extends javax.swing.JInternalFrame {
         setBounds(0, 0, 608, 493);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonConfirmarDevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfirmarDevActionPerformed
+        LeitoresDAO lDAO = new LeitoresDAO();
+        int idLeitor = lDAO.getID(fieldProntuarioDev.getText());
+        EmprestimoDAO eDAO = new EmprestimoDAO();
+        eDAO.realizarDevolucao(Integer.parseInt(fieldIDDev.getText()), idLeitor);
+    }//GEN-LAST:event_buttonConfirmarDevActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonConfirmarDev;
     private javax.swing.JTextField fieldDataAtual;
-    private javax.swing.JTextField fieldIsbnDev;
+    private javax.swing.JTextField fieldIDDev;
     private javax.swing.JTextField fieldProntuarioDev;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

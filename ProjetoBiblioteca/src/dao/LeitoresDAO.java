@@ -16,6 +16,37 @@ import java.sql.SQLException;
  * @author gabrielstahlberg
  */
 public class LeitoresDAO {
+    public int getID(String prontuario){
+        String sql = "select leitor_id from leitores where leitor_prontuario = ?";
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql)                
+            ){
+            pStat.setString(1, prontuario);
+            ResultSet rs = pStat.executeQuery();
+                    
+            rs.next();            
+            return rs.getInt("leitor_id");
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
+    
+    public int getDias(String prontuario){
+        String sql = "select c.cat_leitor_max_dias from categoria_leitor c, leitores l where leitor_prontuario = ? and c.cat_leitor_cod = l.cat_leitor_cod";
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql)                
+            ){
+            pStat.setString(1, prontuario);
+            ResultSet rs = pStat.executeQuery();
+                    
+            rs.next();            
+            return rs.getInt("cat_leitor_max_dias");
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
     
     public String buscaTipoLeitor(String prontuario){
         String sql = "select c.cat_leitor_desc from categoria_leitor c, leitores l where leitor_prontuario = ? and c.cat_leitor_cod = l.cat_leitor_cod";

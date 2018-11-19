@@ -8,6 +8,7 @@ package view;
 import bd.ConexaoBD;
 import dao.LeitoresDAO;
 import dao.AutoresDAO;
+import dao.EmprestimoDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -111,6 +112,11 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
             
             if(this.emprestimoConfirmado == JOptionPane.YES_OPTION){
                 // COMPLETAR AQUI
+                LeitoresDAO lDAO = new LeitoresDAO();
+                int idLeitor = lDAO.getID(fieldProntuario.getText());
+                int diasPrev = lDAO.getDias(fieldProntuario.getText());
+                EmprestimoDAO eDAO = new EmprestimoDAO();
+                eDAO.realizarEmprestimo(exemplarId, idLeitor, Integer.parseInt(fieldIdFuncionario.getText()), diasPrev);
             }else{
                 // COMPLETAR AQUI
             }
@@ -302,12 +308,13 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                     .addComponent(fieldDataAtual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonAddPront))
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(fieldObraPesquisada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(fieldIdFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(fieldObraPesquisada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
