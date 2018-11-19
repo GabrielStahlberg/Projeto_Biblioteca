@@ -6,6 +6,7 @@
 package view;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -18,7 +19,9 @@ public class TelaDevolucao extends javax.swing.JInternalFrame {
      */
     public TelaDevolucao() {
         initComponents();
-        this.fieldDataAtual.setText(LocalDate.now().toString());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String data = LocalDate.now().format(formatter);
+        this.fieldDataAtual.setText(data);
     }
 
     /**
@@ -44,7 +47,7 @@ public class TelaDevolucao extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("Devoluções");
 
-        jLabel1.setText("ISBN da Obra:");
+        jLabel1.setText("ID Exemplar");
 
         jLabel2.setText("Prontuário:");
 
@@ -86,7 +89,7 @@ public class TelaDevolucao extends javax.swing.JInternalFrame {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(fieldDataAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(28, Short.MAX_VALUE))))
+                        .addContainerGap(38, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

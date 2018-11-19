@@ -26,7 +26,7 @@ public class TelaExemplares extends javax.swing.JInternalFrame {
     
     private void buscaObras(){
         ObrasDAO obrasDAO = new ObrasDAO();
-        List<String> listaObras = obrasDAO.buscarObras();
+        List<String> listaObras = obrasDAO.buscarTitulosObras();
         for(int i=0; i<listaObras.size(); i++){
             this.comboObras.addItem(listaObras.get(i));
         }
@@ -36,7 +36,7 @@ public class TelaExemplares extends javax.swing.JInternalFrame {
         ExemplaresDAO exemplaresDAO = new ExemplaresDAO();
         ObrasDAO obrasDAO = new ObrasDAO();
         String tituloObra = (String)comboObras.getSelectedItem();
-        String isbn = obrasDAO.buscaObraIsbn(tituloObra);
+        String isbn = obrasDAO.buscaObraIsbnPorTitulo(tituloObra);
         
         if(!this.fieldQtdeExemplares.getText().equals("")){
             int qtde = Integer.parseInt(this.fieldQtdeExemplares.getText());

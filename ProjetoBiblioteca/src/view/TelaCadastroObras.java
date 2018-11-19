@@ -54,6 +54,7 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
             System.out.println(obra.toString());
             
             obrasDAO.salvar(obra);
+            JOptionPane.showMessageDialog(null, "Obra cadastrada com sucesso", null, 1);
             
         }else{
             JOptionPane.showMessageDialog(null, "Preencha os campos corretamente", null, 2);

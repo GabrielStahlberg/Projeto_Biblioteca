@@ -1,3 +1,62 @@
+ select cat_obra_desc from categoria_obra;
+
+alter table obras modify obra_qtde_total number default 1;
+alter table obras add data_publ date;
+
+select * from obras;
+select * from autores;
+select * from palavras_chave;
+select * from exemplares;
+select * from leitores;
+select * from categoria_leitor;
+
+select c.cat_leitor_desc
+from categoria_leitor c, leitores l
+where leitor_prontuario = '1710111'
+and c.cat_leitor_cod = l.cat_leitor_cod;
+
+select count(*)
+from categoria_leitor c, leitores l
+where leitor_prontuario = 'asd'
+and c.cat_leitor_cod = l.cat_leitor_cod;
+
+select count(*) from categoria_leitor c, leitores l where leitor_prontuario = '1710111' and c.cat_leitor_cod = l.cat_leitor_cod;
+
+select o.obra_titulo, k.cat_obra_desc, o.obra_editora, o.obra_isbn, e.exemplar_id
+from obras o, categoria_obra k, exemplares e
+where upper(o.obra_titulo) like upper('t%') and
+o.cat_obra_cod = k.cat_obra_cod and
+o.obra_isbn = e.obra_isbn and
+e.exemplar_status = 'Disponivel';
+
+select * from obras where obra_isbn = '000-01-012-0554-1';
+
+select a.autor_nome
+from autores a
+where a.obra_isbn = '000-85-258-0000-2';
+
+select * from obras o, exemplares e where o.obra_isbn = e.obra_isbn;
+
+select obra_titulo from obras;
+select
+
+delete from obras where obra_num_edicao = 10;
+delete from palavras_chave where obra_isbn = '9788543004792';
+
+select cat_obra_cod from categoria_obra where upper(cat_obra_desc) = upper('Gibi');
+
+
+
+select o.obra_titulo, a.autor_nome
+from obras o, autores a
+where a.obra_isbn = o.obra_isbn;
+
+
+commit;
+
+
+----------------------------------------------------
+
  create table leitores(
     leitor_id number(6) primary key,
     leitor_prontuario varchar(20),            -- Ou deixar um valor default, caso seja usuário externo e não tenha o prontuário.
@@ -142,7 +201,7 @@ insert into autores(autor_nro, autor_nome, obra_isbn)values(autores_seq.nextval,
 insert into autores(autor_nro, autor_nome, obra_isbn)values(autores_seq.nextval, 'Charles Perrault', '258-85-258-8888-2');
 
 insert into obras(obra_isbn, obra_editora, obra_titulo, obra_num_edicao, obra_qtde_total, data_publ, cat_obra_cod)values('147-74-147-0554-1', 'Francisco de Robles', 'Dom Quixote', 1, 10, sysdate, 'LIV');
-insert into obras(obra_isbn, obra_editora, obra_titulo, obra_num_edicao, obra_qtde_total, data_publ, cat_obra_cod)values('258-85-258-8888-2', '�?tica', 'O Pequeno Polegar', 2, 10, sysdate, 'LIV');
+insert into obras(obra_isbn, obra_editora, obra_titulo, obra_num_edicao, obra_qtde_total, data_publ, cat_obra_cod)values('258-85-258-8888-2', '?tica', 'O Pequeno Polegar', 2, 10, sysdate, 'LIV');
 
 insert into exemplares(exemplar_id, obra_isbn)values(EXEMPLAR_SEQ.nextval, '258-85-258-8888-2');
 

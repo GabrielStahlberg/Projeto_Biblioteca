@@ -100,6 +100,7 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         });
         tableAcervo.setAutoscrolls(false);
         tableAcervo.setColumnSelectionAllowed(true);
+        tableAcervo.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tableAcervo);
         tableAcervo.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 

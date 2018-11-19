@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.Obra;
@@ -39,7 +39,22 @@ public class ObrasDAO {
         }
     }
     
-    public List<String> buscarObras(){
+    public String buscarCategoriaObraDesc(String categoriaCod){
+        String sql = "select cat_obra_desc from categoria_obra where upper(cat_obra_cod) = upper(?)";
+        
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql);
+                ResultSet rs = pStat.executeQuery()
+            ){
+            rs.next();
+            return rs.getString("cat_obra_desc");
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
+    
+    public List<String> buscarTitulosObras(){
         String sql = "select obra_titulo from obras";
         List<String> obras = new ArrayList<>(50);
         
@@ -73,7 +88,7 @@ public class ObrasDAO {
         }
     }
     
-    public String buscaObraIsbn(String titulo){
+    public String buscaObraIsbnPorTitulo(String titulo){
         String sql = "select obra_isbn from obras where upper(obra_titulo) = upper(?)";
         try(                
                 Connection con = ConexaoBD.getInstance().getConnection();
@@ -186,7 +201,7 @@ public class ObrasDAO {
             try(ResultSet rs = pStat.executeQuery()){
                 while(rs.next()){
                     Obra o = new Obra();
-
+                    
                     o.setIsbn(rs.getString("obra_isbn"));
                     o.setTitulo(rs.getString("obra_titulo"));
                     o.setEditora(rs.getString("obra_editora"));
@@ -201,7 +216,6 @@ public class ObrasDAO {
                         o.setDataPubl(rs.getDate("data_publ").toLocalDate());
                     }
                     o.setExemplares(eDAO.buscarExemplares(o.getIsbn()));
-                    
                 }
                 return obras;
             }
