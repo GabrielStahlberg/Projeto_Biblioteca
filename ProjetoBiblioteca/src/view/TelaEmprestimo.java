@@ -42,7 +42,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
     
     private void buscarObrasPorTituloFiltrando(){
         // PRECISEI FAZER A QUERY AQUI PARA PODER UTILIZA A API
-        String sql = "select o.obra_titulo, k.cat_obra_desc, o.obra_editora, o.obra_isbn, e.exemplar_id"
+        String sql = "select o.obra_titulo Título, k.cat_obra_desc Categoria, o.obra_editora Editora, o.obra_isbn ISBN, e.exemplar_id as ID_Exemplar"
                 + " from obras o, categoria_obra k, exemplares e"
                 + " where upper(o.obra_titulo) like upper(?)"
                 + " and o.cat_obra_cod = k.cat_obra_cod"
@@ -78,6 +78,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
         if(this.fieldProntuario.getText().equals("") ||
            this.fieldTipoLeitor.getText().equals("") ||
            this.fieldIdFuncionario.getText().equals(""))
+           // FALTA VALIDAR SE EXISTE ESSE FUNCIONÁRIO CADSTRADO
         {
             retorno = false;
         }
@@ -111,16 +112,12 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
             this.emprestimoConfirmado = JOptionPane.showConfirmDialog(null, sb.toString(), null, JOptionPane.YES_NO_OPTION);
             
             if(this.emprestimoConfirmado == JOptionPane.YES_OPTION){
-                // COMPLETAR AQUI
                 LeitoresDAO lDAO = new LeitoresDAO();
                 int idLeitor = lDAO.getID(fieldProntuario.getText());
                 int diasPrev = lDAO.getDias(fieldProntuario.getText());
                 EmprestimoDAO eDAO = new EmprestimoDAO();
                 eDAO.realizarEmprestimo(exemplarId, idLeitor, Integer.parseInt(fieldIdFuncionario.getText()), diasPrev);
-            }else{
-                // COMPLETAR AQUI
-            }
-            
+            }            
         }else{
             JOptionPane.showMessageDialog(null, "Preencha o campo corretamente", null, 2);
         }     

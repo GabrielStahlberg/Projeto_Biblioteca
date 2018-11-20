@@ -8,10 +8,8 @@ package view;
 import dao.ExemplaresDAO;
 import dao.ObrasDAO;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Obra;
 
@@ -21,6 +19,8 @@ import model.Obra;
  */
 public class TelaRelatorio extends javax.swing.JInternalFrame {
     private DefaultTableModel modelDepart;
+    private int inicio;
+    private int fim;
     /**
      * Creates new form TelaRelatorio
      */
@@ -281,8 +281,6 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         return build.toString();
     }
     
-    private int inicio;
-    private int fim;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAcervo;
     private javax.swing.JButton buttonAnterior;
