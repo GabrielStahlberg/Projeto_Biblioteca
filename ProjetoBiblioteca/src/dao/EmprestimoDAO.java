@@ -8,6 +8,7 @@ package dao;
 import bd.ConexaoBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -15,6 +16,25 @@ import java.sql.SQLException;
  * @author MiND
  */
 public class EmprestimoDAO {
+    public int verificaFuncionario(int numero){
+        String sql = "select count(*) from funcionarios where func_id = ?";
+        ConexaoBD conexao = ConexaoBD.getInstance();
+        try (
+                Connection con = conexao.getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql)
+                )
+        {
+            pStat.setInt(1, numero);
+            ResultSet rs = pStat.executeQuery();
+            
+            rs.next();
+            return rs.getInt(1);
+        }
+        catch(SQLException erro) {
+            throw new RuntimeException(erro);
+        }
+    }
+    
     private void alterarStatusExemplar(Connection con, int idExemplar, String status) throws SQLException{
         String sql = "update exemplares set exemplar_status = ? where exemplar_id = ?";
         PreparedStatement pStat = con.prepareStatement(sql);

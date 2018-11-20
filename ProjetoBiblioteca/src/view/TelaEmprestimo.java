@@ -74,13 +74,20 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
     
     private boolean validaCampos(){
         boolean retorno = true;
+        int funcionarioValido;
+        EmprestimoDAO emprestimoDAO = new EmprestimoDAO();
         
         if(this.fieldProntuario.getText().equals("") ||
            this.fieldTipoLeitor.getText().equals("") ||
            this.fieldIdFuncionario.getText().equals(""))
-           // FALTA VALIDAR SE EXISTE ESSE FUNCIONÁRIO CADSTRADO
         {
             retorno = false;
+        }else if(!this.fieldIdFuncionario.getText().equals("")){
+            funcionarioValido = emprestimoDAO.verificaFuncionario(Integer.parseInt(this.fieldIdFuncionario.getText()));
+            if(funcionarioValido == 0){
+                JOptionPane.showMessageDialog(null, "Funcionário não encontrado.", null, 0);
+                retorno = false;
+            }
         }
         return retorno;
     }
@@ -119,7 +126,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                 eDAO.realizarEmprestimo(exemplarId, idLeitor, Integer.parseInt(fieldIdFuncionario.getText()), diasPrev);
             }            
         }else{
-            JOptionPane.showMessageDialog(null, "Preencha o campo corretamente", null, 2);
+            JOptionPane.showMessageDialog(null, "Preencha o(s) campo(s) corretamente", null, 2);
         }     
     }
 
