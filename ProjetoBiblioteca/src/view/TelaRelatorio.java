@@ -26,8 +26,8 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
      */
     public TelaRelatorio() {
         initComponents();
-        this.inicio = 0;
-        this.fim = 9;
+        this.inicio = 1;
+        this.fim = 10;
         this.modelDepart = (DefaultTableModel) tableAcervo.getModel();
         this.buttonProximo.setEnabled(false);
         this.buttonAnterior.setEnabled(false);
@@ -199,8 +199,8 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonProximo)
                     .addComponent(buttonAnterior)
@@ -235,8 +235,8 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buttonPDFActionPerformed
 
     private void buttonAcervoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcervoActionPerformed
-        this.inicio = 0;
-        this.fim = 9;
+        this.inicio = 1;
+        this.fim = 10;
         this.buttonAcervo.setEnabled(false);
         this.buttonProximo.setEnabled(true);
         this.buttonAnterior.setEnabled(true);
