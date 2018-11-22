@@ -65,6 +65,36 @@ public class Obra {
     public Obra(){
         
     }
+    
+    public String formataSaida(){
+        StringBuffer sb = new StringBuffer();
+        
+        sb.append("Título: ");
+        sb.append(getTitulo());
+        sb.append("\nISBN: ");
+        sb.append(getIsbn());
+        sb.append("\nEditora: ");
+        sb.append(getEditora());
+        sb.append("\nData de publicação: ");
+        sb.append(getDataPubl());
+        sb.append("\nAutores: ");
+        for(int i=0; i<getAutores().size(); i++){
+            sb.append(getAutores().get(i));
+            sb.append(", ");
+        }
+        sb.append("\nPalavras-chave: ");
+        for(int i=0; i<getPalavrasChaves().size(); i++){
+            sb.append(getPalavrasChaves().get(i));
+            sb.append(", ");
+        }
+        sb.append("\nNro Edição: ");
+        sb.append(getNroEdicao());
+        sb.append("\nCategoria: ");
+        sb.append(getCategoria());
+        sb.append("\n\n");
+        
+        return sb.toString();
+    }
 
     @Override
     public String toString() {

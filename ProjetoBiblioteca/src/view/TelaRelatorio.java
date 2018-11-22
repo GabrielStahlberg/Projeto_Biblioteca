@@ -8,6 +8,7 @@ package view;
 import dao.ExemplaresDAO;
 import dao.ObrasDAO;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

@@ -5,21 +5,68 @@
  */
 package view;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import dao.ObrasDAO;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 import javax.swing.ButtonGroup;
+import model.Obra;
 
 /**
  *
  * @author gabrielstahlberg
  */
 public class OpcoesPDF extends javax.swing.JFrame {
+    private List<Obra> listaCompleta;
 
-    /**
-     * Creates new form OpcoesXML
-     */
     public OpcoesPDF() {
         initComponents();
         this.group.add(this.opcaoPdfbox);
         this.group.add(this.opcaoItext);
+    }
+    
+    private void gerarPDF(){
+        ObrasDAO obrasDAO = new ObrasDAO();
+        this.listaCompleta = obrasDAO.realizarRelatorioCompleto();
+        
+        if(this.opcaoItext.isSelected()){
+            Document document = new Document();
+            
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream("acervo.pdf"));
+                
+                document.open();
+                
+                document.addCreationDate();
+                document.addTitle("Relatório completo do acervo");
+                document.add(new Paragraph("\t\tRELATÓRIO COMPLETO DO ACERVO\n\n"));
+                
+                for(int i=0; i<this.listaCompleta.size(); i++){
+                    document.add(new Paragraph(this.listaCompleta.get(i).formataSaida()));
+                }
+                
+            } catch (FileNotFoundException | DocumentException erro) {
+                erro.printStackTrace();
+            }finally{
+                document.close();
+            }
+            
+            try {
+                Desktop.getDesktop().open(new File("acervo.pdf"));
+            } catch (IOException erro) {
+                erro.printStackTrace();
+            }
+            
+        }else{
+            // COMPLETAR AQUI
+        }
     }
 
     /**
@@ -51,6 +98,11 @@ public class OpcoesPDF extends javax.swing.JFrame {
         buttonApiJSON.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         buttonApiJSON.setForeground(new java.awt.Color(63, 187, 71));
         buttonApiJSON.setText("ESCOLHER");
+        buttonApiJSON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonApiJSONActionPerformed(evt);
+            }
+        });
 
         buttonApiVoltar.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         buttonApiVoltar.setForeground(new java.awt.Color(220, 52, 43));
@@ -105,6 +157,10 @@ public class OpcoesPDF extends javax.swing.JFrame {
     private void buttonApiVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApiVoltarActionPerformed
         this.dispose();
     }//GEN-LAST:event_buttonApiVoltarActionPerformed
+
+    private void buttonApiJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApiJSONActionPerformed
+        gerarPDF();
+    }//GEN-LAST:event_buttonApiJSONActionPerformed
 
     /**
      * @param args the command line arguments

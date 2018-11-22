@@ -143,6 +143,45 @@ public class ObrasDAO {
         }
     }
     
+    public List<Obra> realizarRelatorioCompleto(){
+        String sql = "select * from obras";
+        List<Obra> obras = new ArrayList<>();
+        PalavrasChaveDAO pCDAO = new PalavrasChaveDAO();
+        AutoresDAO aDAO = new AutoresDAO();
+        ExemplaresDAO eDAO = new ExemplaresDAO();
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql)
+            ){
+            
+            try(ResultSet rs = pStat.executeQuery()){
+                while(rs.next()){
+                    Obra o = new Obra();
+
+                    o.setIsbn(rs.getString("obra_isbn"));
+                    o.setTitulo(rs.getString("obra_titulo"));
+                    o.setEditora(rs.getString("obra_editora"));
+                    o.setNroEdicao(rs.getInt("obra_num_edicao"));
+                    o.setAutores(aDAO.buscar(o.getIsbn()));
+                    o.setPalavrasChaves(pCDAO.buscar(o.getIsbn()));
+                    o.setCategoria(rs.getString("cat_obra_cod"));
+                    if(rs.getDate("data_publ") == null){
+                        o.setDataPubl(null);
+                    }
+                    else{
+                        o.setDataPubl(rs.getDate("data_publ").toLocalDate());
+                    }
+                    o.setExemplares(eDAO.buscarExemplares(o.getIsbn()));
+                                        
+                    obras.add(o);
+                }
+                return obras;
+            }
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
+    
     public List<Obra> realizarRelatorio(int inicio, int fim){
         String sql = "select t.* from (select rownum rn, tt.* from (select * from obras order by obra_isbn) tt where rownum <=?) t where rn >=?";
         List<Obra> obras = new ArrayList<>();
