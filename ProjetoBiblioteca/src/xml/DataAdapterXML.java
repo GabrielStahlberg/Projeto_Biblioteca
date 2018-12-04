@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class DataAdapter extends XmlAdapter<String,LocalDate>{
+public class DataAdapterXML extends XmlAdapter<String,LocalDate>{
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     
     @Override

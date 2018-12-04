@@ -5,7 +5,7 @@
  */
 package model;
 
-import xml.DataAdapter;
+import xml.DataAdapterXML;
 import java.time.LocalDate;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -32,7 +32,7 @@ public class Obra {
     private String editora;
     
     @XmlElement(name = "data")
-    @XmlJavaTypeAdapter(DataAdapter.class)
+    @XmlJavaTypeAdapter(DataAdapterXML.class)
     private LocalDate dataPubl;
     
     @XmlElement(name = "autor")
