@@ -35,7 +35,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="31" pref="31" max="-2" attributes="0"/>
               <Component id="opcaoSax" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="opcaoDom" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Component id="opcaoJaxb" min="-2" max="-2" attributes="0"/>
@@ -114,16 +114,25 @@
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="API SAX"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new view.radiobuttons.RadioSax(&quot;API SAX&quot;)"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JRadioButton" name="opcaoDom">
       <Properties>
         <Property name="text" type="java.lang.String" value="API DOM"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new view.radiobuttons.RadioDOM(&quot;API DOM&quot;)"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JRadioButton" name="opcaoJaxb">
       <Properties>
         <Property name="text" type="java.lang.String" value="API JAXB"/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new view.radiobuttons.RadioJAXB(&quot;API JAXB&quot;,ObraLista.class)"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>

@@ -17,12 +17,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import model.Obra;
+import model.ObraLista;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import util.AlgoritmoLeitura;
 
-public class XMLDOM {
+public class XMLDOM implements AlgoritmoLeitura{
     private File file;
     
     private Document writeDoc;
@@ -32,12 +34,16 @@ public class XMLDOM {
         this.file = file;
     }
     
-    public XMLDOM(File file, String rootElement){
-        this.file = file;
+    public void setRootElement(String rootElement){
         loadDocumentWrite(rootElement);
     }
     
-    public List<Obra> readXML(){
+    public void setFile(File file){
+        this.file = file;
+    }
+    
+    public ObraLista read(){
+        ObraLista o = new ObraLista();
         List<Obra> books = new ArrayList<>();
         Document document = loadDocumentRead();
         
@@ -105,8 +111,8 @@ public class XMLDOM {
             books.add(b);
             
         }
-        
-        return books;
+        o.setObraList(books);
+        return o;
     }
     
     private Document loadDocumentRead(){
@@ -136,7 +142,13 @@ public class XMLDOM {
         }
     }
     
-    public void writeXML(Obra obra){
+    
+    public void write(ObraLista o){
+        List<Obra> obras = o.getObraList();
+        obras.forEach(obra -> escreverElemento(obra));
+    }
+    
+    public void escreverElemento(Obra obra){
         Element obraElement = writeDoc.createElement("obra");
         writeEle.appendChild(obraElement);
         

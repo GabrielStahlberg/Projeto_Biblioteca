@@ -6,12 +6,12 @@
 package view;
 
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import model.ObraLista;
+import view.radiobuttons.RadioAbstrato;
 
 /**
  *
@@ -58,9 +58,9 @@ public class OpcoesXML extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        opcaoSax = new javax.swing.JRadioButton();
-        opcaoDom = new javax.swing.JRadioButton();
-        opcaoJaxb = new javax.swing.JRadioButton();
+        opcaoSax = new view.radiobuttons.RadioSax("API SAX");
+        opcaoDom = new view.radiobuttons.RadioDOM("API DOM");
+        opcaoJaxb = new view.radiobuttons.RadioJAXB("API JAXB",ObraLista.class);
         jLabel1 = new javax.swing.JLabel();
         buttonApiXML = new javax.swing.JButton();
         buttonApiVoltar = new javax.swing.JButton();
@@ -125,7 +125,7 @@ public class OpcoesXML extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(opcaoSax)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(opcaoDom)
                 .addGap(27, 27, 27)
                 .addComponent(opcaoJaxb)
@@ -194,18 +194,18 @@ public class OpcoesXML extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "Escolha um arquivo !", null, 1);
         }
         else{
-            int selected = 0;
+            RadioAbstrato rA = null;
             if(opcaoSax.isSelected()){
-                selected = 1;
+                rA = (RadioAbstrato)opcaoSax;
             }
             else if(opcaoDom.isSelected()){
-                selected = 2;
+                rA = (RadioAbstrato)opcaoDom;
             }
             else if(opcaoJaxb.isSelected()){
-                selected = 3;
+                rA = (RadioAbstrato)opcaoJaxb;
             }
             if(this.isImportacao){
-                ImportacaoBackground importacao = new ImportacaoBackground(selected,fileEscolhida, this.labelQuantidade);
+                ImportacaoBackground importacao = new ImportacaoBackground(rA,fileEscolhida, this.labelQuantidade);
                 importacao.addPropertyChangeListener(e -> {
                     if(e.getPropertyName().equals("progress")){
                         this.barraProgresso.setValue((Integer)e.getNewValue());
