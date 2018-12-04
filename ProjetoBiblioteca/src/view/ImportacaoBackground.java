@@ -55,8 +55,6 @@ public class ImportacaoBackground extends SwingWorker<Integer,Object>{
                 String codigo = obrasDAO.buscarCategoriasObraCod(this.books.get(i).getCategoria());
                 this.books.get(i).setCategoria(codigo);
                 obrasDAO.salvar(this.books.get(i));
-                
-                publish(i);
                 setProgress(100 * (i+1) / total);
             }
         }catch(Exception erro){

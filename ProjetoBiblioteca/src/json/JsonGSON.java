@@ -14,12 +14,14 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.time.LocalDate;
+import model.ObraLista;
+import util.AlgoritmoLeitura;
 
 /**
  *
  * @author MiND
  */
-public class JsonGSON {
+public class JsonGSON implements AlgoritmoLeitura{
     private File arquivo;
     
     public JsonGSON(File arquivo){
@@ -30,20 +32,22 @@ public class JsonGSON {
         this.arquivo = arquivo;
     }
     
-    public <T extends Object>T ler(Class<T> clazz){
+    @Override
+    public ObraLista read(){
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.registerTypeAdapter(LocalDate.class, new DataAdapterJsonGson()).create();
-        T ret = null;
+        ObraLista ret = null;
         
         try(Reader r = new FileReader(arquivo)){
-            ret = gson.fromJson(r, clazz);
+            ret = gson.fromJson(r, ObraLista.class);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         return ret;
     }
     
-    public void gravar(Object o){
+    @Override
+    public void write(ObraLista o){
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.registerTypeAdapter(LocalDate.class, new DataAdapterJsonGson()).setPrettyPrinting().create();
         try(Writer w = new FileWriter(arquivo)){

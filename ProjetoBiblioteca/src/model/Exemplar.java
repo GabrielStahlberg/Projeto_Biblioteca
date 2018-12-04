@@ -17,6 +17,8 @@ public class Exemplar {
         this.id = id;
         this.disponivel = disponivel;
     }
+    public Exemplar(){
+    }
 
     public int getId() {
         return id;

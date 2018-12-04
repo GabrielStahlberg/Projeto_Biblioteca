@@ -41,8 +41,6 @@ public class OpcoesXML extends javax.swing.JFrame {
             this.buttonApiXML.setText("SALVAR");
             this.buttonProcurarArquivo.setText("SALVAR EM:");
             this.opcaoSax.setEnabled(false);
-            
-            // Verificar possibilidade de escolher onde salvar
         }
     }
     /**

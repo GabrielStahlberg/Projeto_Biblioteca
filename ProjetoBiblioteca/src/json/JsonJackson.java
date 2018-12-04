@@ -13,12 +13,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDate;
+import model.ObraLista;
+import util.AlgoritmoLeitura;
 
 /**
  *
  * @author MiND
  */
-public class JsonJackson {
+public class JsonJackson implements AlgoritmoLeitura{
     private File arquivo;
     
     public JsonJackson(File arquivo){
@@ -30,13 +32,14 @@ public class JsonJackson {
     }
     
     
-    public <T extends Object>T ler(Class<T> clazz){
+    @Override
+    public ObraLista read(){
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             SimpleModule sM = new SimpleModule();
             sM.addDeserializer(LocalDate.class, new DataDeserializerJackson());
             objectMapper.registerModule(sM);
-            return objectMapper.readValue(arquivo, clazz);
+            return objectMapper.readValue(arquivo, ObraLista.class);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -44,7 +47,8 @@ public class JsonJackson {
     }
     
     
-    public void gravar(Object o) throws IOException{
+    @Override
+    public void write(ObraLista o){
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
         SimpleModule sM = new SimpleModule();

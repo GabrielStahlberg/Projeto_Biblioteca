@@ -6,6 +6,7 @@
 package view.radiobuttons;
 
 import java.io.File;
+import json.JsonJackson;
 import util.AlgoritmoLeitura;
 
 /**
@@ -20,7 +21,8 @@ public class RadioJackson extends RadioAbstrato{
 
     @Override
     public AlgoritmoLeitura getAlgoritmo(File file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonJackson json = new JsonJackson(file);
+        return json;
     }
     
 }

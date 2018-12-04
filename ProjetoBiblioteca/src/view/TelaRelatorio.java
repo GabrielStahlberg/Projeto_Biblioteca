@@ -226,7 +226,7 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buttonXMLActionPerformed
 
     private void buttonJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonJSONActionPerformed
-        OpcoesJSON opcoesJSON = new OpcoesJSON();
+        OpcoesJSON opcoesJSON = new OpcoesJSON(false);
         opcoesJSON.setVisible(true);
     }//GEN-LAST:event_buttonJSONActionPerformed
 

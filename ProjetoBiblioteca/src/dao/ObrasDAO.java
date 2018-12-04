@@ -81,8 +81,10 @@ public class ObrasDAO {
             pStat.setString(1, categoria);
             ResultSet rs = pStat.executeQuery();
                     
-            rs.next();            
-            return rs.getString("cat_obra_cod");
+            if(rs.next()){
+                return rs.getString("cat_obra_cod");
+            }         
+            return null;
         }catch(SQLException erro){
             throw new RuntimeException(erro);
         }

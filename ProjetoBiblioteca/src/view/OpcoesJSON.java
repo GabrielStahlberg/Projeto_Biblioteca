@@ -5,7 +5,12 @@
  */
 package view;
 
+import java.io.File;
 import javax.swing.ButtonGroup;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import view.radiobuttons.RadioAbstrato;
 
 /**
  *
@@ -16,12 +21,24 @@ public class OpcoesJSON extends javax.swing.JFrame {
     /**
      * Creates new form OpcoesXML
      */
-    public OpcoesJSON() {
+    public OpcoesJSON(boolean isImportacao) {
         initComponents();
         this.group.add(this.opcaoGson);
         this.group.add(this.opcaoJackson);
+        this.isImportacao = isImportacao;
+        configuraJanela();
+    }
+    
+    public OpcoesJSON() {
     }
 
+    private void configuraJanela(){
+        if(!this.isImportacao){
+            this.buttonApiJSON.setText("SALVAR");
+            this.buttonProcurarArquivo.setText("SALVAR EM:");
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,11 +48,15 @@ public class OpcoesJSON extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        opcaoJackson = new javax.swing.JRadioButton();
-        opcaoGson = new javax.swing.JRadioButton();
+        opcaoJackson = new view.radiobuttons.RadioJackson("API JACKSON");
+        opcaoGson = new view.radiobuttons.RadioGSON("API GSON");
         jLabel1 = new javax.swing.JLabel();
         buttonApiJSON = new javax.swing.JButton();
         buttonApiVoltar = new javax.swing.JButton();
+        buttonProcurarArquivo = new javax.swing.JButton();
+        fieldCaminhoArquivo = new javax.swing.JTextField();
+        barraProgresso = new javax.swing.JProgressBar();
+        labelQuantidade = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -51,6 +72,11 @@ public class OpcoesJSON extends javax.swing.JFrame {
         buttonApiJSON.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         buttonApiJSON.setForeground(new java.awt.Color(63, 187, 71));
         buttonApiJSON.setText("ESCOLHER");
+        buttonApiJSON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonApiJSONActionPerformed(evt);
+            }
+        });
 
         buttonApiVoltar.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
         buttonApiVoltar.setForeground(new java.awt.Color(220, 52, 43));
@@ -61,50 +87,134 @@ public class OpcoesJSON extends javax.swing.JFrame {
             }
         });
 
+        buttonProcurarArquivo.setText("PROCURAR");
+        buttonProcurarArquivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonProcurarArquivoActionPerformed(evt);
+            }
+        });
+
+        fieldCaminhoArquivo.setEditable(false);
+
+        labelQuantidade.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(buttonApiJSON)
-                .addGap(35, 35, 35))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jLabel1))
+                        .addContainerGap()
+                        .addComponent(fieldCaminhoArquivo))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(opcaoGson)
-                            .addComponent(opcaoJackson)
-                            .addComponent(buttonApiVoltar))))
-                .addContainerGap(63, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(54, 54, 54)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(opcaoGson)
+                                    .addComponent(opcaoJackson)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(71, 71, 71)
+                                .addComponent(buttonProcurarArquivo))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(barraProgresso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(labelQuantidade))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(buttonApiVoltar)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(buttonApiJSON)))))
+                        .addGap(0, 23, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(opcaoJackson)
-                .addGap(39, 39, 39)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(opcaoGson)
-                .addGap(68, 68, 68)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonApiJSON)
-                    .addComponent(buttonApiVoltar))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fieldCaminhoArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(buttonProcurarArquivo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buttonApiVoltar)
+                            .addComponent(buttonApiJSON))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(barraProgresso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelQuantidade))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(260, 295));
+        setSize(new java.awt.Dimension(260, 270));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonApiVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApiVoltarActionPerformed
         this.dispose();
     }//GEN-LAST:event_buttonApiVoltarActionPerformed
+
+    private void buttonProcurarArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonProcurarArquivoActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Procurar arquivo");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON", "json");
+
+        fileChooser.setFileFilter(filter);
+        int retorno = fileChooser.showOpenDialog(this);
+
+        if(retorno == JFileChooser.APPROVE_OPTION){
+            fileEscolhida = fileChooser.getSelectedFile();
+            this.fieldCaminhoArquivo.setText(fileEscolhida.getPath());
+        }
+    }//GEN-LAST:event_buttonProcurarArquivoActionPerformed
+
+    private void buttonApiJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApiJSONActionPerformed
+        if(fileEscolhida == null){
+           JOptionPane.showMessageDialog(null, "Escolha um arquivo !", null, 1);
+        }
+        else{
+            RadioAbstrato rA = null;
+            if(opcaoGson.isSelected()){
+                rA = (RadioAbstrato)opcaoGson;
+            }
+            else if(opcaoJackson.isSelected()){
+                rA = (RadioAbstrato)opcaoJackson;
+            }
+            if(this.isImportacao){
+                ImportacaoBackground importacao = new ImportacaoBackground(rA,fileEscolhida, this.labelQuantidade);
+                importacao.addPropertyChangeListener(e -> {
+                    if(e.getPropertyName().equals("progress")){
+                        this.barraProgresso.setValue((Integer)e.getNewValue());
+                    }
+                });
+                importacao.execute();
+            }else{
+                ExportacaoBackground exportacao = new ExportacaoBackground(rA,fileEscolhida, this.labelQuantidade);
+                exportacao.addPropertyChangeListener(e -> {
+                    if(e.getPropertyName().equals("progress")){
+                        this.barraProgresso.setValue((Integer)e.getNewValue());
+                    }
+                });
+                exportacao.execute();
+            }
+        }
+    }//GEN-LAST:event_buttonApiJSONActionPerformed
 
     /**
      * @param args the command line arguments
@@ -142,11 +252,17 @@ public class OpcoesJSON extends javax.swing.JFrame {
         });
     }
     
+    private boolean isImportacao;
     private ButtonGroup group = new ButtonGroup();
+    private File fileEscolhida;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JProgressBar barraProgresso;
     private javax.swing.JButton buttonApiJSON;
     private javax.swing.JButton buttonApiVoltar;
+    private javax.swing.JButton buttonProcurarArquivo;
+    private javax.swing.JTextField fieldCaminhoArquivo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel labelQuantidade;
     private javax.swing.JRadioButton opcaoGson;
     private javax.swing.JRadioButton opcaoJackson;
     // End of variables declaration//GEN-END:variables

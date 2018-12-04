@@ -6,6 +6,7 @@
 package view.radiobuttons;
 
 import java.io.File;
+import json.JsonGSON;
 import util.AlgoritmoLeitura;
 
 /**
@@ -20,7 +21,8 @@ public class RadioGSON extends RadioAbstrato{
 
     @Override
     public AlgoritmoLeitura getAlgoritmo(File file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JsonGSON json = new JsonGSON(file);
+        return json;
     }
     
 }

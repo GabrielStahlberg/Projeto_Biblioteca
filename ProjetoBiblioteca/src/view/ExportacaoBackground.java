@@ -51,7 +51,6 @@ public class ExportacaoBackground extends SwingWorker<Integer,Object>{
     protected Integer doInBackground() throws Exception {
         try{        
             for(int i=0; i<this.total; i++){
-                publish(i);
                 setProgress(100 * (i+1) / total);
             }
         }catch(Exception erro){

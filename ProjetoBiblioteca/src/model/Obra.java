@@ -47,7 +47,7 @@ public class Obra {
     private int nroEdicao;
     
     @XmlElement(name = "categoria")
-    private String categoriaCod;
+    private String categoria;
     
     private List<Exemplar> exemplares;
 
@@ -59,7 +59,7 @@ public class Obra {
         this.autores = autores;
         this.palavrasChaves = palavrasChaves;
         this.nroEdicao = nroEdicao;
-        this.categoriaCod = categoria;
+        this.categoria = categoria;
     }
     
     public Obra(){
@@ -158,11 +158,11 @@ public class Obra {
     }
 
     public String getCategoria() {
-        return categoriaCod;
+        return categoria;
     }
 
     public void setCategoria(String categoria) {
-        this.categoriaCod = categoria;
+        this.categoria = categoria;
     }
 
     public List<Exemplar> getExemplares() {
