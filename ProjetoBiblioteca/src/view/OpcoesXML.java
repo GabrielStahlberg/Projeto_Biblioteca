@@ -43,10 +43,6 @@ public class OpcoesXML extends javax.swing.JFrame {
             this.opcaoSax.setEnabled(false);
             
             // Verificar possibilidade de escolher onde salvar
-            this.buttonProcurarArquivo.setEnabled(false);
-            this.fieldCaminhoArquivo.setEnabled(false);
-            this.barraProgresso.setVisible(false);
-            this.labelQuantidade.setVisible(false);
         }
     }
     /**
@@ -213,7 +209,13 @@ public class OpcoesXML extends javax.swing.JFrame {
                 });
                 importacao.execute();
             }else{
-                
+                ExportacaoBackground exportacao = new ExportacaoBackground(rA,fileEscolhida, this.labelQuantidade);
+                exportacao.addPropertyChangeListener(e -> {
+                    if(e.getPropertyName().equals("progress")){
+                        this.barraProgresso.setValue((Integer)e.getNewValue());
+                    }
+                });
+                exportacao.execute();
             }
         }
     }//GEN-LAST:event_buttonApiXMLActionPerformed
