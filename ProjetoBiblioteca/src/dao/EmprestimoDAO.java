@@ -10,6 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import model.Pendencia;
 
 /**
  *
@@ -100,6 +104,66 @@ public class EmprestimoDAO {
             }
         }
         catch(SQLException erro) {
+            throw new RuntimeException(erro);
+        }
+    }
+    
+    public List<Pendencia> consultaPorData(LocalDate data){
+        String sql = "select em.emp_data, em.emp_data_prev_dev, o.obra_titulo, "
+                + "o.obra_num_edicao, l.leitor_nome, ca.cat_leitor_desc from emprestimos em "
+                + "inner join exemplares e on e.exemplar_id = em.exemplar_id "
+                + "inner join obras o on o.obra_isbn = e.obra_isbn "
+                + "inner join leitores l on l.leitor_id = em.leitor_id "
+                + "inner join categoria_leitor ca on ca.cat_leitor_cod = l.cat_leitor_cod "
+                + "where em.emp_data between ? and sysdate and em.emp_data_prev_dev < sysdate "
+                + "and em.emp_data_real_dev is null";
+        List<Pendencia> listaRetorno = new ArrayList<>();
+        StringBuffer sb = new StringBuffer();
+        
+        try(
+            Connection con = ConexaoBD.getInstance().getConnection();
+            PreparedStatement pStat = con.prepareStatement(sql)    
+        ){
+            pStat.setDate(1, java.sql.Date.valueOf(data));
+            try(ResultSet rs = pStat.executeQuery()){
+                while(rs.next()){
+                    Pendencia p = new Pendencia();
+                    String titulo = rs.getString("obra_titulo");
+                    p.setDataEmp(rs.getDate("emp_data").toLocalDate());
+                    p.setDataPrev(rs.getDate("emp_data_prev_dev").toLocalDate());
+                    p.setTitulo(titulo);
+                    p.setIdExemplares(exemplaresPendentesPorObra(titulo, con));
+                    p.setNroEdicao(rs.getInt("obra_num_edicao"));
+                    p.setNomeLeitor(rs.getString("leitor_nome"));
+                    p.setCatLeitor(rs.getString("cat_leitor_desc"));
+                    
+                    listaRetorno.add(p);
+                }
+                return listaRetorno;
+            }
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
+    
+    private List<Integer> exemplaresPendentesPorObra(String tituloObra, Connection con){
+        String sql = "select e.exemplar_id from emprestimos em "
+                + "inner join exemplares e on em.exemplar_id = e.exemplar_id "
+                + "inner join obras o on o.obra_isbn = e.obra_isbn "
+                + "where o.obra_titulo = ?";
+        List<Integer> listaRetorno = new ArrayList<>();
+        
+        try(
+            PreparedStatement pStat = con.prepareStatement(sql)    
+        ){
+            pStat.setString(1, tituloObra);
+            try(ResultSet rs = pStat.executeQuery()){
+                while(rs.next()){
+                    listaRetorno.add(rs.getInt("exemplar_id"));
+                }
+                return listaRetorno;
+            }
+        }catch(SQLException erro){
             throw new RuntimeException(erro);
         }
     }
