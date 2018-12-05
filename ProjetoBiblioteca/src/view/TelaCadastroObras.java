@@ -6,9 +6,12 @@
 package view;
 
 import dao.ObrasDAO;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import model.Obra;
@@ -42,8 +45,11 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
             ObrasDAO obrasDAO = new ObrasDAO();
             String titulo = this.fieldTitulo.getText();
             String isbn = this.fieldIsbn.getText();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate dataPubl = LocalDate.parse(fieldDataPubl.getText(), formatter);
+            Date temp = this.fieldDataPubl.getDate();
+            Instant instant = temp.toInstant();
+            ZonedDateTime dt = instant.atZone(ZoneId.systemDefault());
+            LocalDate dataPubl = dt.toLocalDate();            
+            
             String editora = this.fieldEditora.getText();
             int nroEdicao = Integer.parseInt(this.fieldNEdicao.getText());
             String categoria = (String)this.comboCategoria.getSelectedItem();
@@ -64,13 +70,13 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
     private boolean validaCampos(){
         boolean retorno = true;
         
-        if(this.fieldDataPubl.equals("") || 
-           this.fieldEditora.equals("")  || 
-           this.fieldIsbn.equals("")     ||
-           this.fieldNEdicao.equals("")  || 
-           this.fieldTitulo.equals("")   ||
-           this.autores.size() == 0      ||
-           this.palavrasChave.size() == 0)
+        if( 
+           this.fieldEditora.getText().equals("")  || 
+           this.fieldIsbn.getText().equals("")     ||
+           this.fieldNEdicao.getText().equals("")  || 
+           this.fieldTitulo.getText().equals("")   ||
+           this.autores.isEmpty()                  ||
+           this.palavrasChave.isEmpty())
         {
             retorno = false;
         }
@@ -78,7 +84,6 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
     }
     
     private void limpaCampos(){
-        this.fieldDataPubl.setText(null);
         this.fieldEditora.setText(null);
         this.fieldIsbn.setText(null);
         this.fieldNEdicao.setText(null);
@@ -109,7 +114,6 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
         labelISBN = new javax.swing.JLabel();
         fieldIsbn = new javax.swing.JTextField();
         labelDataPubl = new javax.swing.JLabel();
-        fieldDataPubl = new javax.swing.JTextField();
         labelEditora = new javax.swing.JLabel();
         fieldEditora = new javax.swing.JTextField();
         labelNEdicao = new javax.swing.JLabel();
@@ -120,6 +124,7 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
         buttonCadastrar = new javax.swing.JButton();
         buttonAddPalavra = new javax.swing.JButton();
         buttonAddAutor = new javax.swing.JButton();
+        fieldDataPubl = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         setIconifiable(true);
@@ -245,8 +250,8 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(fieldEditora)
-                            .addComponent(fieldDataPubl)
-                            .addComponent(fieldIsbn)))
+                            .addComponent(fieldIsbn)
+                            .addComponent(fieldDataPubl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -290,10 +295,11 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fieldAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelAutor)
-                            .addComponent(labelDataPubl)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(fieldAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(labelAutor)
+                                .addComponent(labelDataPubl))
                             .addComponent(fieldDataPubl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,7 +369,7 @@ public class TelaCadastroObras extends javax.swing.JInternalFrame {
     private javax.swing.JButton buttonXML;
     private javax.swing.JComboBox<String> comboCategoria;
     private javax.swing.JTextField fieldAutor;
-    private javax.swing.JTextField fieldDataPubl;
+    private com.toedter.calendar.JDateChooser fieldDataPubl;
     private javax.swing.JTextField fieldEditora;
     private javax.swing.JTextField fieldIsbn;
     private javax.swing.JTextField fieldNEdicao;
