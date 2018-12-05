@@ -125,13 +125,19 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                 EmprestimoDAO eDAO = new EmprestimoDAO();
                 int statusLeitor = lDAO.getStatus(idLeitor);
                 boolean repetida = eDAO.verificaObraRepetida(obraIsbn, idLeitor);
+                int qtde = eDAO.getQtdeEmprestimosDisp(fieldProntuario.getText());
                 
                 if(statusLeitor == 0){
                     JOptionPane.showMessageDialog(null, "Leitor suspenso. Regularize a situação e tente novamente.", null, 2);
                 }else if(repetida){
                     JOptionPane.showMessageDialog(null, "Leitor ainda possui empréstimo desta mesma obra.", null, 2);
+                }else if(qtde == 0){
+                    JOptionPane.showMessageDialog(null, "Limite de empréstimos atingido.", null, 2);
+                    this.labelQtdeEmpDisp.setText(String.valueOf(qtde));
                 }else{                
                     eDAO.realizarEmprestimo(exemplarId, idLeitor, Integer.parseInt(fieldIdFuncionario.getText()), diasPrev);
+                    qtde = eDAO.getQtdeEmprestimosDisp(fieldProntuario.getText());
+                    this.labelQtdeEmpDisp.setText(String.valueOf(qtde));
                 }            
             }            
         }else{
@@ -162,9 +168,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
         tableObras = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         buttonConfirmarEmp = new javax.swing.JButton();
-        buttonAnterior = new javax.swing.JButton();
-        buttonProximo = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        labelQtdeEmpDisp = new javax.swing.JLabel();
         buttonAddPront = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -238,12 +242,8 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
             }
         });
 
-        buttonAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/previous.png"))); // NOI18N
-
-        buttonProximo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/next.png"))); // NOI18N
-
-        jLabel7.setFont(new java.awt.Font("Noto Sans", 1, 16)); // NOI18N
-        jLabel7.setText("2");
+        labelQtdeEmpDisp.setFont(new java.awt.Font("Noto Sans", 1, 16)); // NOI18N
+        labelQtdeEmpDisp.setText("?");
 
         buttonAddPront.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/add.png"))); // NOI18N
         buttonAddPront.addActionListener(new java.awt.event.ActionListener() {
@@ -274,16 +274,6 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(fieldDataAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonAnterior)
-                        .addGap(170, 170, 170)
-                        .addComponent(buttonConfirmarEmp)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonProximo))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(218, 218, 218)
@@ -305,7 +295,17 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(fieldIdFuncionario, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))))
-                    .addComponent(jLabel8))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(216, 216, 216)
+                                .addComponent(buttonConfirmarEmp))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(labelQtdeEmpDisp))
+                            .addComponent(jLabel8))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -332,15 +332,12 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonAnterior)
-                    .addComponent(buttonProximo)
-                    .addComponent(buttonConfirmarEmp, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(12, 12, 12)
+                .addComponent(buttonConfirmarEmp)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7))
+                    .addComponent(labelQtdeEmpDisp))
                 .addGap(31, 31, 31))
         );
 
@@ -363,8 +360,10 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Prontuário não encontrado.", null, 2);
                 this.fieldProntuario.setText(null);
             }else{
+                EmprestimoDAO eDAO = new EmprestimoDAO();
                 String tipoLeitor = leitoresDAO.buscaTipoLeitor(prontuario);
                 this.fieldTipoLeitor.setText(tipoLeitor);
+                this.labelQtdeEmpDisp.setText(String.valueOf(eDAO.getQtdeEmprestimosDisp(prontuario)));
             }
         }
     }//GEN-LAST:event_buttonAddProntActionPerformed
@@ -381,9 +380,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAddPront;
-    private javax.swing.JButton buttonAnterior;
     private javax.swing.JButton buttonConfirmarEmp;
-    private javax.swing.JButton buttonProximo;
     private javax.swing.JTextField fieldDataAtual;
     private javax.swing.JTextField fieldIdFuncionario;
     private javax.swing.JTextField fieldObraPesquisada;
@@ -396,10 +393,10 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelQtdeEmpDisp;
     private javax.swing.JTable tableObras;
     // End of variables declaration//GEN-END:variables
 }

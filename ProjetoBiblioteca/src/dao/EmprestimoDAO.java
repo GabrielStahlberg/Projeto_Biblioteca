@@ -65,13 +65,14 @@ public class EmprestimoDAO {
         }
     }
     
-    public int getQtdeEmprestimosDisp(int idLeitor){
-        String sql = "select count(*) from emprestimos e where e.leitor_id = ?";
+    public int getQtdeEmprestimosDisp(String pront){
+        String sql = "select count(*) from emprestimos e inner join leitores l on l.leitor_id = e.leitor_id "
+                + "where l.leitor_prontuario = ?";
         try(                
                 Connection con = ConexaoBD.getInstance().getConnection();
                 PreparedStatement pStat = con.prepareStatement(sql)                
             ){
-            pStat.setInt(1, idLeitor);
+            pStat.setString(1, pront);
             ResultSet rs = pStat.executeQuery();
                     
             rs.next();            
