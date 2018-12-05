@@ -5,18 +5,66 @@
  */
 package view;
 
+import dao.EmprestimoDAO;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.Pendencia;
+
 /**
  *
  * @author gabrielstahlberg
  */
 public class TelaConsulta extends javax.swing.JInternalFrame {
+    private DefaultTableModel modelDepart;
+    private int inicio;
+    private int fim;
 
     /**
      * Creates new form TelaConsulta
      */
     public TelaConsulta() {
         initComponents();
+        this.inicio = 1;
+        this.fim = 10;
+        this.modelDepart = (DefaultTableModel) tablePendentes.getModel();
+        this.buttonProximo.setEnabled(false);
+        this.buttonAnterior.setEnabled(false);
     }
+    
+    private void fazConsulta(){
+        modelDepart.setRowCount(0);
+        Date temp = this.fieldData.getDate();
+        Instant instant = temp.toInstant();
+        ZonedDateTime dt = instant.atZone(ZoneId.systemDefault());
+        LocalDate data = dt.toLocalDate();
+        EmprestimoDAO dao = new EmprestimoDAO();
+        List<Pendencia> lista = dao.consultaPorData(data);
+        
+        for(int i=0; i<lista.size(); i++){
+            StringBuffer sb = new StringBuffer();
+            List<Integer> listaId = lista.get(i).getIdExemplares();
+            for(int k=0; k<listaId.size(); k++){
+                sb.append(listaId.get(k).toString());
+                sb.append(", ");
+            }
+            LocalDate dataEmp = lista.get(i).getDataEmp();
+            LocalDate dataPrev = lista.get(i).getDataPrev();
+            String titulo = lista.get(i).getTitulo();
+            int nroEdicao = lista.get(i).getNroEdicao();
+            String nomeLeitor = lista.get(i).getNomeLeitor();
+            String catLeitor = lista.get(i).getCatLeitor();
+            
+            Object[] line = new Object[]{dataEmp, dataPrev, titulo, nroEdicao, sb.toString(), nomeLeitor, catLeitor};
+            modelDepart.addRow(line);
+        }
+    }
+    
+    // FALTA FAZER A PAGINAÇÃO
 
     /**
      * This method is called from within the constructor to initialize the form.
