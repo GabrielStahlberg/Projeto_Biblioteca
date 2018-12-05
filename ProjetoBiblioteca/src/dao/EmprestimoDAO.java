@@ -105,7 +105,8 @@ public class EmprestimoDAO {
     }
     
     public void realizarDevolucao(int idExemplar, int idLeitor){
-        String sql = "update emprestimos set emp_data_real_dev = sysdate where exemplar_id = ? and emp_data_real_dev is null and leitor_id = ?";
+        String sql = "update emprestimos set emp_data_real_dev = sysdate where exemplar_id = ? "
+                + "and emp_data_real_dev is null and leitor_id = ?";
         ConexaoBD conexao = ConexaoBD.getInstance();
         try (Connection con = conexao.getConnection()){
             con.setAutoCommit(false);
