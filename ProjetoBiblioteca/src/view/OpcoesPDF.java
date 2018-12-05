@@ -30,12 +30,12 @@ public class OpcoesPDF extends javax.swing.JFrame {
         initComponents();
         this.group.add(this.opcaoPdfbox);
         this.group.add(this.opcaoItext);
-    }
-    
-    private void gerarPDF(){
+        
         ObrasDAO obrasDAO = new ObrasDAO();
         this.listaCompleta = obrasDAO.realizarRelatorioCompleto();
-        
+    }
+    
+    private void gerarPDF(){        
         if(this.opcaoItext.isSelected()){
             Document document = new Document();
             

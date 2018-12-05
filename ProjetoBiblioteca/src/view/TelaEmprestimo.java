@@ -91,7 +91,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
         }
         return retorno;
     }
-    
+   
     private void confirmaEmprestimo(){
         if(validaCampos()){
             StringBuffer sb = new StringBuffer();
@@ -123,7 +123,16 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
                 int idLeitor = lDAO.getID(fieldProntuario.getText());
                 int diasPrev = lDAO.getDias(fieldProntuario.getText());
                 EmprestimoDAO eDAO = new EmprestimoDAO();
-                eDAO.realizarEmprestimo(exemplarId, idLeitor, Integer.parseInt(fieldIdFuncionario.getText()), diasPrev);
+                int statusLeitor = lDAO.getStatus(idLeitor);
+                boolean repetida = eDAO.verificaObraRepetida(obraIsbn, idLeitor);
+                
+                if(statusLeitor == 0){
+                    JOptionPane.showMessageDialog(null, "Leitor suspenso. Regularize a situação e tente novamente.", null, 2);
+                }else if(repetida){
+                    JOptionPane.showMessageDialog(null, "Leitor ainda possui empréstimo desta mesma obra.", null, 2);
+                }else{                
+                    eDAO.realizarEmprestimo(exemplarId, idLeitor, Integer.parseInt(fieldIdFuncionario.getText()), diasPrev);
+                }            
             }            
         }else{
             JOptionPane.showMessageDialog(null, "Preencha o(s) campo(s) corretamente", null, 2);

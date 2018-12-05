@@ -48,6 +48,22 @@ public class LeitoresDAO {
         }
     }
     
+    public int getStatus(int idLeitor){
+        String sql = "select l.leitor_status_emprestimo from leitores l where l.leitor_id = ?";
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql)                
+            ){
+            pStat.setInt(1, idLeitor);
+            ResultSet rs = pStat.executeQuery();
+                    
+            rs.next();            
+            return rs.getInt("leitor_status_emprestimo");
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
+    
     public String buscaTipoLeitor(String prontuario){
         String sql = "select c.cat_leitor_desc from categoria_leitor c, leitores l where leitor_prontuario = ? and c.cat_leitor_cod = l.cat_leitor_cod";
         try(                

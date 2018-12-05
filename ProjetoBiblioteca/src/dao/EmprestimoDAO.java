@@ -43,6 +43,44 @@ public class EmprestimoDAO {
         pStat.executeUpdate();
     }
     
+    public boolean verificaObraRepetida(String isbn, int idLeitor){
+        String sql = "select count(*) from emprestimos em inner join exemplares e on em.exemplar_id = e.exemplar_id inner join obras o "
+                + "on o.obra_isbn = e.obra_isbn inner join leitores l on l.leitor_id = em.leitor_id where l.leitor_id = ? "
+                + "and o.obra_isbn = ?";
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql)                
+            ){
+            pStat.setInt(1, idLeitor);
+            pStat.setString(2, isbn);
+            ResultSet rs = pStat.executeQuery();
+                    
+            rs.next();            
+            if(rs.getInt(1) == 0){
+                return false;
+            }
+            return true;
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
+    
+    public int getQtdeEmprestimosDisp(int idLeitor){
+        String sql = "select count(*) from emprestimos e where e.leitor_id = ?";
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql)                
+            ){
+            pStat.setInt(1, idLeitor);
+            ResultSet rs = pStat.executeQuery();
+                    
+            rs.next();            
+            return (3 - rs.getInt(1));
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
+    
     public void realizarEmprestimo(int idExemplar, int idLeitor, int idFunc, int diasPrev){
         String sql = "insert into emprestimos (emp_id, emp_data, emp_data_prev_dev, exemplar_id, leitor_id, func_id)"
                 +    "values(emprestimos_seq.nextval, sysdate, (sysdate + ?), ?, ?, ?)";
