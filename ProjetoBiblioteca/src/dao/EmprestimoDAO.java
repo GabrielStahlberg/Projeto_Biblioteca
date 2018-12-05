@@ -150,7 +150,9 @@ public class EmprestimoDAO {
         String sql = "select e.exemplar_id from emprestimos em "
                 + "inner join exemplares e on em.exemplar_id = e.exemplar_id "
                 + "inner join obras o on o.obra_isbn = e.obra_isbn "
-                + "where o.obra_titulo = ?";
+                + "where o.obra_titulo = ? "
+                + "and em.emp_data_real_dev is null "
+                + "and em.emp_data_prev_dev < sysdate";
         List<Integer> listaRetorno = new ArrayList<>();
         
         try(
