@@ -108,15 +108,17 @@ public class EmprestimoDAO {
         }
     }
     
-    public List<Pendencia> consultaPorData(LocalDate data){
-        String sql = "select em.emp_data, em.emp_data_prev_dev, o.obra_titulo, "
+    public List<Pendencia> consultaPorData(LocalDate data, int inicio, int fim){
+        String sql = "select t.* from(select rownum rn, tt.* from("
+                + "select em.emp_data, em.emp_data_prev_dev, o.obra_titulo, "
                 + "o.obra_num_edicao, l.leitor_nome, ca.cat_leitor_desc from emprestimos em "
                 + "inner join exemplares e on e.exemplar_id = em.exemplar_id "
                 + "inner join obras o on o.obra_isbn = e.obra_isbn "
                 + "inner join leitores l on l.leitor_id = em.leitor_id "
                 + "inner join categoria_leitor ca on ca.cat_leitor_cod = l.cat_leitor_cod "
                 + "where em.emp_data between ? and sysdate and em.emp_data_prev_dev < sysdate "
-                + "and em.emp_data_real_dev is null";
+                + "and em.emp_data_real_dev is null)tt where rownum <= ?)t "
+                + "where rn >= ?";
         List<Pendencia> listaRetorno = new ArrayList<>();
         StringBuffer sb = new StringBuffer();
         
@@ -125,6 +127,8 @@ public class EmprestimoDAO {
             PreparedStatement pStat = con.prepareStatement(sql)    
         ){
             pStat.setDate(1, java.sql.Date.valueOf(data));
+            pStat.setInt(2, fim);
+            pStat.setInt(3, inicio);
             try(ResultSet rs = pStat.executeQuery()){
                 while(rs.next()){
                     Pendencia p = new Pendencia();

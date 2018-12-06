@@ -23,6 +23,8 @@ public class TelaConsulta extends javax.swing.JInternalFrame {
     private DefaultTableModel modelDepart;
     private int inicio;
     private int fim;
+    
+    private static final int MAX = 2;
 
     /**
      * Creates new form TelaConsulta
@@ -30,41 +32,48 @@ public class TelaConsulta extends javax.swing.JInternalFrame {
     public TelaConsulta() {
         initComponents();
         this.inicio = 1;
-        this.fim = 10;
+        this.fim = MAX;
         this.modelDepart = (DefaultTableModel) tablePendentes.getModel();
         this.buttonProximo.setEnabled(false);
         this.buttonAnterior.setEnabled(false);
     }
     
-    private void fazConsulta(){
+    private void populaTabela(List<Pendencia> lista){
         modelDepart.setRowCount(0);
-        Date temp = this.fieldData.getDate();
-        Instant instant = temp.toInstant();
-        ZonedDateTime dt = instant.atZone(ZoneId.systemDefault());
-        LocalDate data = dt.toLocalDate();
-        EmprestimoDAO dao = new EmprestimoDAO();
-        List<Pendencia> lista = dao.consultaPorData(data);
         
         for(int i=0; i<lista.size(); i++){
-            StringBuffer sb = new StringBuffer();
-            List<Integer> listaId = lista.get(i).getIdExemplares();
-            for(int k=0; k<listaId.size(); k++){
-                sb.append(listaId.get(k).toString());
-                sb.append(", ");
-            }
+        StringBuffer sb = new StringBuffer();
+        List<Integer> listaId = lista.get(i).getIdExemplares();
+        for(int k=0; k<listaId.size(); k++){
+            sb.append(listaId.get(k).toString());
+            sb.append(", ");
+        }
             LocalDate dataEmp = lista.get(i).getDataEmp();
             LocalDate dataPrev = lista.get(i).getDataPrev();
             String titulo = lista.get(i).getTitulo();
             int nroEdicao = lista.get(i).getNroEdicao();
             String nomeLeitor = lista.get(i).getNomeLeitor();
             String catLeitor = lista.get(i).getCatLeitor();
-            
+
             Object[] line = new Object[]{dataEmp, dataPrev, titulo, nroEdicao, sb.toString(), nomeLeitor, catLeitor};
             modelDepart.addRow(line);
         }
     }
     
-    // FALTA FAZER A PAGINAÇÃO
+    private boolean fazConsulta(){        
+        Date temp = this.fieldData.getDate();
+        Instant instant = temp.toInstant();
+        ZonedDateTime dt = instant.atZone(ZoneId.systemDefault());
+        LocalDate data = dt.toLocalDate();
+        EmprestimoDAO dao = new EmprestimoDAO();
+        List<Pendencia> lista = dao.consultaPorData(data, inicio, fim);
+        if(lista.isEmpty()){
+            return false;
+        }else{           
+            populaTabela(lista);
+            return true;
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -115,8 +124,18 @@ public class TelaConsulta extends javax.swing.JInternalFrame {
         tablePendentes.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         buttonAnterior.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/previous.png"))); // NOI18N
+        buttonAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnteriorActionPerformed(evt);
+            }
+        });
 
         buttonProximo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/next.png"))); // NOI18N
+        buttonProximo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonProximoActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Informe a data:");
 
@@ -125,6 +144,11 @@ public class TelaConsulta extends javax.swing.JInternalFrame {
         jLabel7.setText("DEVOLUÇÕES PENDENTES");
 
         buttonConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/search.png"))); // NOI18N
+        buttonConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonConsultaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -175,6 +199,38 @@ public class TelaConsulta extends javax.swing.JInternalFrame {
 
         setBounds(0, 0, 608, 493);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConsultaActionPerformed
+        this.buttonProximo.setEnabled(true);
+        this.buttonAnterior.setEnabled(true);
+        fazConsulta();
+    }//GEN-LAST:event_buttonConsultaActionPerformed
+
+    private void buttonAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnteriorActionPerformed
+        inicio -= MAX;
+        fim -= MAX;
+        if(!fazConsulta()){
+            inicio += MAX;
+            fim += MAX;
+            buttonAnterior.setEnabled(false);
+        }
+        if(!buttonProximo.isEnabled()){
+            buttonProximo.setEnabled(true);
+        }
+    }//GEN-LAST:event_buttonAnteriorActionPerformed
+
+    private void buttonProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonProximoActionPerformed
+        inicio += MAX;
+        fim += MAX;
+        if(!fazConsulta()){
+            inicio -= MAX;
+            fim -= MAX;
+            buttonProximo.setEnabled(false);
+        }
+        if(!buttonAnterior.isEnabled()){
+            buttonAnterior.setEnabled(true);
+        }
+    }//GEN-LAST:event_buttonProximoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
