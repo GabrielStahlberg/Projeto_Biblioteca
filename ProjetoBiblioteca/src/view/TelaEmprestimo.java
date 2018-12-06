@@ -9,6 +9,7 @@ import bd.ConexaoBD;
 import dao.LeitoresDAO;
 import dao.AutoresDAO;
 import dao.EmprestimoDAO;
+import dao.ObrasDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +31,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
     private String obraEditora;
     private String obraCategoria;
     private int emprestimoConfirmado;
+    ObrasDAO dao = new ObrasDAO();
     /**
      * Creates new form TelaEmprestimo
      */
@@ -40,26 +42,8 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
         this.fieldDataAtual.setText(data);
     }
     
-    private void buscarObrasPorTituloFiltrando(){
-        // PRECISEI FAZER A QUERY AQUI PARA PODER UTILIZA A API
-        String sql = "select o.obra_titulo Título, k.cat_obra_desc Categoria, o.obra_editora Editora, o.obra_isbn ISBN, e.exemplar_id as ID_Exemplar"
-                + " from obras o, categoria_obra k, exemplares e"
-                + " where upper(o.obra_titulo) like upper(?)"
-                + " and o.cat_obra_cod = k.cat_obra_cod"
-                + " and o.obra_isbn = e.obra_isbn"
-                + " and e.exemplar_status = 'Disponivel'";
-        try(                
-                Connection con = ConexaoBD.getInstance().getConnection();
-                PreparedStatement pStat = con.prepareStatement(sql))
-        { 
-            pStat.setString(1, this.fieldObraPesquisada.getText() + "%");
-            ResultSet rs = pStat.executeQuery();
-            
-            this.tableObras.setModel(DbUtils.resultSetToTableModel(rs));            
-            
-        }catch(SQLException erro){
-            throw new RuntimeException(erro);
-        }
+    private void buscarObras(){
+        dao.buscarObrasPorTituloFiltrando(this.tableObras, this.fieldObraPesquisada);
     }
     
     private void recuperaObraSelecionada(){
@@ -369,7 +353,7 @@ public class TelaEmprestimo extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buttonAddProntActionPerformed
 
     private void fieldObraPesquisadaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fieldObraPesquisadaKeyReleased
-        buscarObrasPorTituloFiltrando();
+        buscarObras();
     }//GEN-LAST:event_fieldObraPesquisadaKeyReleased
 
     private void tableObrasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObrasMouseClicked

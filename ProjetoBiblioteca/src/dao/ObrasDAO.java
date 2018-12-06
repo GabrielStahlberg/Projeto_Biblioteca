@@ -10,16 +10,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import model.Obra;
+import net.proteanit.sql.DbUtils;
 
-/**
- *
- * @author gabrielstahlberg
- */
+
 public class ObrasDAO {
+    public void buscarObrasPorTituloFiltrando(JTable table, JTextField fieldObraPesquisada){
+        String sql = "select o.obra_titulo Título, k.cat_obra_desc Categoria, o.obra_editora Editora, o.obra_isbn ISBN, e.exemplar_id as ID_Exemplar"
+                + " from obras o, categoria_obra k, exemplares e"
+                + " where upper(o.obra_titulo) like upper(?)"
+                + " and o.cat_obra_cod = k.cat_obra_cod"
+                + " and o.obra_isbn = e.obra_isbn"
+                + " and e.exemplar_status = 'Disponivel'";
+        try(                
+                Connection con = ConexaoBD.getInstance().getConnection();
+                PreparedStatement pStat = con.prepareStatement(sql))
+        {             
+            pStat.setString(1, fieldObraPesquisada.getText() + "%");
+            
+            try(ResultSet rs = pStat.executeQuery()){
+                table.setModel(DbUtils.resultSetToTableModel(rs)); 
+            }          
+        }catch(SQLException erro){
+            throw new RuntimeException(erro);
+        }
+    }
     
     public List<String> buscarCategoriasObra(){
         String sql = "select cat_obra_desc from categoria_obra";
