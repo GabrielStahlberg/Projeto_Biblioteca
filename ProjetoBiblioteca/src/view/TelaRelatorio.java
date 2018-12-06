@@ -30,13 +30,15 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
     private DefaultTableModel modelDepart;
     private int inicio;
     private int fim;
+    
+    private static final int MAX = 10;
     /**
      * Creates new form TelaRelatorio
      */
     public TelaRelatorio() {
         initComponents();
         this.inicio = 1;
-        this.fim = 10;
+        this.fim = MAX;
         this.modelDepart = (DefaultTableModel) tableAcervo.getModel();
         this.buttonProximo.setEnabled(false);
         this.buttonAnterior.setEnabled(false);
@@ -280,7 +282,7 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
 
     private void buttonAcervoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcervoActionPerformed
         this.inicio = 1;
-        this.fim = 10;
+        this.fim = MAX;
         this.buttonAcervo.setEnabled(false);
         this.buttonProximo.setEnabled(true);
         this.buttonAnterior.setEnabled(true);
@@ -291,20 +293,28 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buttonAcervoActionPerformed
 
     private void buttonProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonProximoActionPerformed
-        inicio += 10;
-        fim += 10;
+        inicio += MAX;
+        fim += MAX;
         if(!fazerRelatorio()){
-            inicio -= 10;
-            fim -= 10;
+            inicio -= MAX;
+            fim -= MAX;
+            buttonProximo.setEnabled(false);
+        }
+        if(!buttonAnterior.isEnabled()){
+            buttonAnterior.setEnabled(true);
         }
     }//GEN-LAST:event_buttonProximoActionPerformed
 
     private void buttonAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnteriorActionPerformed
-        inicio -= 10;
-        fim -= 10;
+        inicio -= MAX;
+        fim -= MAX;
         if(!fazerRelatorio()){
-            inicio += 10;
-            fim += 10;
+            inicio += MAX;
+            fim += MAX;
+            buttonAnterior.setEnabled(false);
+        }
+        if(!buttonProximo.isEnabled()){
+            buttonProximo.setEnabled(true);
         }
     }//GEN-LAST:event_buttonAnteriorActionPerformed
 
@@ -312,7 +322,7 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         ObrasDAO oDAO = new ObrasDAO();
         List<Obra> obras = oDAO.realizarRelatorio(inicio, fim);
         if(obras.isEmpty()){
-            JOptionPane.showMessageDialog(null, "A pagina em que você quer navegar não foi encontrada", "Pagina não existe", JOptionPane.ERROR_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "A pagina em que você quer navegar não foi encontrada", "Pagina não existe", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         else{

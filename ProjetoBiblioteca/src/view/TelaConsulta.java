@@ -24,7 +24,7 @@ public class TelaConsulta extends javax.swing.JInternalFrame {
     private int inicio;
     private int fim;
     
-    private static final int MAX = 2;
+    private static final int MAX = 10;
 
     /**
      * Creates new form TelaConsulta
