@@ -5,10 +5,18 @@
  */
 package view;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import dao.ExemplaresDAO;
 import dao.ObrasDAO;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +40,9 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         this.modelDepart = (DefaultTableModel) tableAcervo.getModel();
         this.buttonProximo.setEnabled(false);
         this.buttonAnterior.setEnabled(false);
+        this.buttonJSON.setEnabled(false);
+        this.buttonPDF.setEnabled(false);
+        this.buttonXML.setEnabled(false);
     }
 
     private void populaTabela(List<Obra> lista){        
@@ -62,6 +73,39 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
             
             Object[] line = new Object[]{titulo, sbAutores.toString(), sbPalavras.toString(), isbn, dataPubl, editora, categoria, nroEdicao, totalExemplares, totalDisponivel};
             modelDepart.addRow(line);
+        }
+    }
+    
+    private void gerarPDF(){
+        List<Obra> listaCompleta;
+        ObrasDAO obrasDAO = new ObrasDAO();
+        listaCompleta = obrasDAO.realizarRelatorioCompleto();
+        
+        Document document = new Document();
+            
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream("acervo.pdf"));
+                
+            document.open();
+                
+            document.addCreationDate();
+            document.addTitle("Relatório completo do acervo");
+            document.add(new Paragraph("\t\tRELATÓRIO COMPLETO DO ACERVO\n\n"));
+                
+            for(int i=0; i<listaCompleta.size(); i++){
+                document.add(new Paragraph(listaCompleta.get(i).formataSaida()));
+            }
+                
+        } catch (FileNotFoundException | DocumentException erro) {
+            erro.printStackTrace();
+        }finally{
+            document.close();
+        }
+            
+        try {
+            Desktop.getDesktop().open(new File("acervo.pdf"));
+        } catch (IOException erro) {
+            erro.printStackTrace();
         }
     }
 
@@ -231,8 +275,7 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buttonJSONActionPerformed
 
     private void buttonPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPDFActionPerformed
-        OpcoesPDF opcoesPDF = new OpcoesPDF();
-        opcoesPDF.setVisible(true);
+        gerarPDF();
     }//GEN-LAST:event_buttonPDFActionPerformed
 
     private void buttonAcervoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcervoActionPerformed
@@ -242,6 +285,9 @@ public class TelaRelatorio extends javax.swing.JInternalFrame {
         this.buttonProximo.setEnabled(true);
         this.buttonAnterior.setEnabled(true);
         fazerRelatorio();
+        this.buttonJSON.setEnabled(true);
+        this.buttonPDF.setEnabled(true);
+        this.buttonXML.setEnabled(true);
     }//GEN-LAST:event_buttonAcervoActionPerformed
 
     private void buttonProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonProximoActionPerformed
